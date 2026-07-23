@@ -1,5 +1,5 @@
 {
-  "name": "kspace-tools",
+  "name": "wiki-to-graph",
   "owner": { "name": "Tim Darrah" },
   "metadata": {
     "description": "Tools for turning LLM wikis and note collections into knowledge graphs.",

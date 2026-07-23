@@ -5,6 +5,7 @@
 <h1 align="center">wiki-to-graph</h1>
 
 <p align="center">
+  <a href="https://pypi.org/project/wiki-to-graph/"><img src="https://img.shields.io/pypi/v/wiki-to-graph.svg?color=4f7cff&logo=pypi&logoColor=white" alt="PyPI version"></a>
   <img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License: CC BY-NC-SA 4.0">
   <img src="https://img.shields.io/badge/python-3.x-3776AB.svg?logo=python&logoColor=white" alt="Python 3.x">
   <img src="https://img.shields.io/badge/dependencies-none%20(stdlib)-2ec27e.svg" alt="No dependencies">

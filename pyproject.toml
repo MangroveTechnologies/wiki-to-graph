@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "0.2.0"
 description = "Turn an LLM wiki (a folder of interlinked markdown pages) into a typed, queryable knowledge graph: build, validate, analyze, query, update, and view."
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "CC-BY-NC-SA-4.0" }
+license = "CC-BY-NC-SA-4.0"
+license-files = ["LICENSE.md"]
 authors = [{ name = "Tim Darrah", email = "tim.darrah@mangrove.ai" }]
 keywords = ["knowledge-graph", "llm-wiki", "markdown", "graph", "kst", "obsidian", "networkx"]
 classifiers = [

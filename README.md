@@ -61,13 +61,14 @@ from a fresh clone. New here? Start with
 
 - **As a plugin (Cowork):** open the delivered `wiki-to-graph.plugin` file and click install; or
   Settings → Capabilities → add plugin.
-- **As a marketplace / skill repo:** push this folder to a git repo and add it as a plugin
-  marketplace (`.claude-plugin/marketplace.json` lists the plugin). Claude Code:
-  `/plugin marketplace add <repo-url>` then `/plugin install wiki-to-graph`.
+- **As a marketplace / skill repo (Claude Code):**
+  `/plugin marketplace add MangroveTechnologies/wiki-to-graph` then `/plugin install wiki-to-graph`.
+- **From PyPI:** `pip install wiki-to-graph` — installs the `wiki-to-graph` and
+  `wiki-to-graph-viewer` console commands.
 - **No install needed:** the scripts are plain Python — just run them (below).
 
 Requirements: Python 3 (standard library only). `networkx`/`scipy` are optional, for your own
-heavier analysis.
+heavier analysis. Distribution details and release steps: [`docs/publishing.md`](docs/publishing.md).
 
 ---
 

@@ -23,7 +23,8 @@ the edge type** — a link under `## Related` is a `related` edge, a link under
 therefore deterministic.
 
 Full ontology and format rationale: **`references/spec.md`** (read it before
-extending the mapping).
+extending the mapping). The "LLM wiki" pattern is due to Andrej Karpathy; see
+Data Science Dojo's tutorial: https://datasciencedojo.com/blog/llm-wiki-tutorial/
 
 ## Ontology (one screen)
 

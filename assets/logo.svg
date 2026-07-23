@@ -1,0 +1,51 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="wiki-to-graph logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151a33"/>
+      <stop offset="1" stop-color="#0e1226"/>
+    </linearGradient>
+    <radialGradient id="hubGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4f7cff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#4f7cff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="1" y="1" width="254" height="254" rx="52" fill="url(#bg)" stroke="#333a57" stroke-width="2"/>
+
+  <!-- edges -->
+  <g stroke-linecap="round" fill="none">
+    <!-- spokes (related = blue) -->
+    <g stroke="#4f7cff" stroke-opacity="0.5" stroke-width="3">
+      <line x1="128" y1="128" x2="128" y2="52"/>
+      <line x1="128" y1="128" x2="196" y2="90"/>
+      <line x1="128" y1="128" x2="196" y2="166"/>
+      <line x1="128" y1="128" x2="128" y2="204"/>
+      <line x1="128" y1="128" x2="60" y2="166"/>
+      <line x1="128" y1="128" x2="60" y2="90"/>
+    </g>
+    <!-- ring (mentions = muted) -->
+    <g stroke="#5b6070" stroke-opacity="0.7" stroke-width="2.5">
+      <line x1="128" y1="52" x2="196" y2="90"/>
+      <line x1="196" y1="90" x2="196" y2="166"/>
+      <line x1="196" y1="166" x2="128" y2="204"/>
+      <line x1="60" y1="166" x2="60" y2="90"/>
+      <line x1="60" y1="90" x2="128" y2="52"/>
+    </g>
+    <!-- one contradiction (red) -->
+    <line x1="128" y1="204" x2="60" y2="166" stroke="#e5484d" stroke-opacity="0.85" stroke-width="2.5" stroke-dasharray="5 5"/>
+  </g>
+
+  <!-- hub glow -->
+  <circle cx="128" cy="128" r="60" fill="url(#hubGlow)"/>
+
+  <!-- nodes (colored by kind) -->
+  <g stroke="#0e1226" stroke-width="2">
+    <circle cx="128" cy="52"  r="14" fill="#9b5cff"/>  <!-- schema -->
+    <circle cx="196" cy="90"  r="14" fill="#2ec27e"/>  <!-- procedure -->
+    <circle cx="196" cy="166" r="14" fill="#f5a623"/>  <!-- fact -->
+    <circle cx="128" cy="204" r="14" fill="#4f7cff"/>  <!-- concept -->
+    <circle cx="60"  cy="166" r="14" fill="#9b5cff"/>  <!-- schema -->
+    <circle cx="60"  cy="90"  r="14" fill="#2ec27e"/>  <!-- procedure -->
+    <circle cx="128" cy="128" r="22" fill="#4f7cff"/>  <!-- hub concept -->
+  </g>
+</svg>

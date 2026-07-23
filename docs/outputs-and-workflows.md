@@ -5,8 +5,9 @@ This repo ships a complete, runnable example: the wiki in
 `build/` artifacts were generated from. Everything below runs from the repo
 root against that example — no external files needed.
 
-`examples/llm-wiki/` is a 28-page LLM wiki compiled from 6 foundational AI
-papers:
+`examples/llm-wiki/` is a 28-page LLM wiki (the ["LLM wiki" pattern by Andrej
+Karpathy](https://datasciencedojo.com/blog/llm-wiki-tutorial/)) compiled from 6
+foundational AI papers:
 
 - `wiki/` — 26 single-concept entity pages + `index.md` and `log.md` hub pages,
   linked with `[[wiki-links]]`.

@@ -1,6 +1,19 @@
-# wiki-to-kspace
+<p align="center">
+  <img src="assets/banner.svg" alt="wiki-to-graph — turn an LLM wiki into a typed, queryable knowledge graph" width="100%">
+</p>
 
-Turn an **LLM wiki** — a folder of interlinked markdown pages (the Karpathy "LLM wiki" pattern) —
+<h1 align="center">wiki-to-graph</h1>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License: CC BY-NC-SA 4.0">
+  <img src="https://img.shields.io/badge/python-3.x-3776AB.svg?logo=python&logoColor=white" alt="Python 3.x">
+  <img src="https://img.shields.io/badge/dependencies-none%20(stdlib)-2ec27e.svg" alt="No dependencies">
+  <img src="https://img.shields.io/badge/Claude-plugin%20%2B%20skill-9b5cff.svg" alt="Claude plugin + skill">
+  <img src="https://img.shields.io/badge/commercial-inquire-f5a623.svg" alt="Commercial: inquire">
+</p>
+
+Turn an **LLM wiki** — a folder of interlinked markdown pages (the ["LLM wiki"
+pattern by Andrej Karpathy](https://datasciencedojo.com/blog/llm-wiki-tutorial/)) —
 into a real **knowledge graph**: typed nodes and edges you can validate, analyze, traverse, query,
 update, and view in a browser. Python 3 only; no other dependencies.
 
@@ -165,3 +178,12 @@ Full terms in [`LICENSE.md`](LICENSE.md).
 Working end-to-end: build → validate → analyze → query → update → view. Deliberately simple and
 static — the graph is recomputed from the markdown on every `build` (no incremental updates). Edge
 `weight` is captured but inert (not used by metrics). Not yet aligned to any external ontology.
+
+## Acknowledgements
+
+- The **"LLM wiki" pattern** is due to **Andrej Karpathy**.
+- The bundled example (`examples/llm-wiki/`) follows Data Science Dojo's tutorial,
+  [*The LLM Wiki Pattern by Andrej Karpathy: A Step-by-Step Tutorial to Building a
+  Compounding Knowledge Base*](https://datasciencedojo.com/blog/llm-wiki-tutorial/),
+  and is compiled from six foundational AI papers (Attention Is All You Need, BERT,
+  GPT-3, Foundation Models, RLHF/InstructGPT, Chinchilla).

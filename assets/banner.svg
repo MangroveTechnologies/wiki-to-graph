@@ -1,0 +1,61 @@
+<svg width="1280" height="400" viewBox="0 0 1280 400" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="wiki-to-graph — turn an LLM wiki into a typed knowledge graph">
+  <defs>
+    <linearGradient id="bbg" x1="0" y1="0" x2="1280" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151a33"/>
+      <stop offset="1" stop-color="#0e1226"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4f7cff" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#4f7cff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="400" fill="url(#bbg)"/>
+  <rect x="1" y="1" width="1278" height="398" fill="none" stroke="#333a57" stroke-width="2"/>
+
+  <!-- wordmark -->
+  <g font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+    <text x="96" y="176" font-size="76" font-weight="800" fill="#e8e8f0" letter-spacing="-1">wiki<tspan fill="#4f7cff">-to-</tspan>graph</text>
+    <text x="100" y="228" font-size="27" font-weight="500" fill="#9aa0b4">Turn an LLM wiki into a typed, queryable knowledge graph.</text>
+    <text x="100" y="268" font-size="19" font-weight="400" fill="#6b7280">build · validate · analyze · query · update · view — Python 3, no dependencies</text>
+    <!-- legend -->
+    <g font-size="16" fill="#9aa0b4">
+      <circle cx="108" cy="316" r="7" fill="#4f7cff"/><text x="122" y="321">concept</text>
+      <circle cx="212" cy="316" r="7" fill="#9b5cff"/><text x="226" y="321">schema</text>
+      <circle cx="312" cy="316" r="7" fill="#2ec27e"/><text x="326" y="321">procedure</text>
+      <circle cx="438" cy="316" r="7" fill="#f5a623"/><text x="452" y="321">fact</text>
+    </g>
+  </g>
+
+  <!-- graph motif on the right -->
+  <g transform="translate(1000,200)">
+    <circle cx="0" cy="0" r="150" fill="url(#glow)"/>
+    <g stroke-linecap="round" fill="none">
+      <g stroke="#4f7cff" stroke-opacity="0.5" stroke-width="3">
+        <line x1="0" y1="0" x2="0" y2="-110"/>
+        <line x1="0" y1="0" x2="98" y2="-56"/>
+        <line x1="0" y1="0" x2="98" y2="56"/>
+        <line x1="0" y1="0" x2="0" y2="110"/>
+        <line x1="0" y1="0" x2="-98" y2="56"/>
+        <line x1="0" y1="0" x2="-98" y2="-56"/>
+      </g>
+      <g stroke="#5b6070" stroke-opacity="0.7" stroke-width="2.5">
+        <line x1="0" y1="-110" x2="98" y2="-56"/>
+        <line x1="98" y1="-56" x2="98" y2="56"/>
+        <line x1="98" y1="56" x2="0" y2="110"/>
+        <line x1="-98" y1="56" x2="-98" y2="-56"/>
+        <line x1="-98" y1="-56" x2="0" y2="-110"/>
+      </g>
+      <line x1="0" y1="110" x2="-98" y2="56" stroke="#e5484d" stroke-opacity="0.85" stroke-width="2.5" stroke-dasharray="6 6"/>
+    </g>
+    <g stroke="#0e1226" stroke-width="2.5">
+      <circle cx="0"   cy="-110" r="18" fill="#9b5cff"/>
+      <circle cx="98"  cy="-56"  r="18" fill="#2ec27e"/>
+      <circle cx="98"  cy="56"   r="18" fill="#f5a623"/>
+      <circle cx="0"   cy="110"  r="18" fill="#4f7cff"/>
+      <circle cx="-98" cy="56"   r="18" fill="#9b5cff"/>
+      <circle cx="-98" cy="-56"  r="18" fill="#2ec27e"/>
+      <circle cx="0"   cy="0"    r="28" fill="#4f7cff"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+
+# SQLite transient journals (the committed build/graph.db is a sample output)
+*.db-journal
+*.db-wal
+*.db-shm

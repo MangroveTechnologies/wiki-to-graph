@@ -1,0 +1,15 @@
+{
+  "name": "kspace-tools",
+  "owner": { "name": "Tim Darrah" },
+  "metadata": {
+    "description": "Tools for turning LLM wikis and note collections into knowledge graphs.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "wiki-to-kspace",
+      "source": "./",
+      "description": "Turn an LLM wiki into a typed, queryable knowledge graph: build, validate, analyze, query, update, and view."
+    }
+  ]
+}

@@ -1,0 +1,6828 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "meta": {
+    "generator": "wiki_to_kspace/0.2",
+    "generated": "2026-07-23T02:57:06",
+    "source_dir": "/Users/darrahts/vanderbilt/wiki-to-kspace/examples/llm-wiki/wiki",
+    "counts": {
+      "concept": 26,
+      "index": 1,
+      "log": 1,
+      "source": 6,
+      "edges": {
+        "mentions": 150,
+        "related": 156,
+        "contradicts": 50,
+        "cites": 26,
+        "indexes": 26,
+        "records": 1
+      }
+    },
+    "dag_check": {
+      "edge_types": [
+        "mentions"
+      ],
+      "acyclic": false,
+      "cyclic_components": [
+        [
+          "proximal-policy-optimization",
+          "reward-modeling",
+          "positional-encoding",
+          "compute-optimal-scaling",
+          "chinchilla",
+          "homogenization",
+          "next-sentence-prediction",
+          "masked-language-modeling",
+          "pre-training-and-fine-tuning",
+          "in-context-learning",
+          "few-shot-learning",
+          "scale-and-scaling",
+          "emergent-capabilities",
+          "foundation-models",
+          "layer-normalization",
+          "encoder-decoder-architecture",
+          "bert",
+          "self-attention",
+          "multi-head-attention",
+          "scaled-dot-product-attention",
+          "attention-mechanism",
+          "transformer",
+          "autoregressive-language-model",
+          "gpt-3",
+          "rlhf",
+          "alignment"
+        ]
+      ]
+    },
+    "warnings": {
+      "dangling": [],
+      "orphans": [],
+      "self_loops": [],
+      "dup_ids": []
+    }
+  },
+  "nodes": [
+    {
+      "id": "alignment",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Alignment",
+      "summary": "Making a model's behavior match user intent and human values — in the current sources, making language models **helpful, honest, and harmless** rather than merely fluent or large.",
+      "explanation": "RLHF frames the problem sharply: making models bigger does not inherently make them better at following intent; large models can be untruthful, toxic, or unhelpful — i.e. *unaligned*. Alignment is pursued by fine-tuning on human feedback via Reward Modeling and Proximal Policy Optimization. The payoff: InstructGPT (1.3B) is preferred over GPT-3 (175B). Because of Homogenization, aligning a base Foundation Models benefits every downstream application built on it.",
+      "sources": [
+        "raw/05_rlhf_instructgpt.md (Ouyang et al., 2022)"
+      ],
+      "file": "Alignment.md",
+      "in_degree": 15,
+      "out_degree": 16,
+      "edges": [
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "reward-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "reward-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-05-rlhf-instructgpt-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "contradicts": 4,
+          "mentions": 5,
+          "related": 6,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 7,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 95,
+      "aliases": [
+        "Alignment"
+      ]
+    },
+    {
+      "id": "attention-mechanism",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Attention Mechanism",
+      "summary": "An attention mechanism maps a query and a set of key–value pairs to an output computed as a weighted sum of the values, where each weight reflects the compatibility of the query with the corresponding key. It lets a model focus on relevant parts of the input regardless of distance.",
+      "explanation": "Before the Transformer, attention was typically bolted onto recurrent networks. *Attention Is All You Need* showed attention alone is sufficient. The specific form used is Scaled Dot-Product Attention, run in parallel across multiple heads via Multi-Head Attention. When queries, keys, and values all come from the same sequence, it is called Self-Attention.\n\nAttention is what allows the Transformer to model long-range dependencies with short path lengths between any two positions, and underlies both BERT and GPT-3.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Attention Mechanism.md",
+      "in_degree": 7,
+      "out_degree": 11,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 2
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "related": 4,
+          "mentions": 3,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 126,
+      "aliases": [
+        "Attention Mechanism"
+      ]
+    },
+    {
+      "id": "autoregressive-language-model",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Autoregressive Language Model",
+      "summary": "A language model that generates a sequence one token at a time, each token conditioned only on the previously generated (left-context) tokens. This is the modeling style of GPT-3 and the decoder side of the Transformer.",
+      "explanation": "Autoregression is enforced in the Transformer decoder by *masked* Self-Attention: position i can attend only to positions ≤ i, so predictions for i depend only on known earlier outputs. GPT-3 is a pure decoder-only autoregressive model. This left-to-right objective differs from BERT's bidirectional Masked Language Modeling. Autoregressive generation is what makes these models natural text generators and underlies In-Context Learning.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017); raw/03_gpt3.md (Brown et al., 2020)"
+      ],
+      "file": "Autoregressive Language Model.md",
+      "in_degree": 10,
+      "out_degree": 15,
+      "edges": [
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 5,
+          "related": 4,
+          "contradicts": 1,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 6,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 96,
+      "aliases": [
+        "Autoregressive Language Model"
+      ]
+    },
+    {
+      "id": "bert",
+      "type": "concept",
+      "kind": "schema",
+      "title": "BERT",
+      "summary": "BERT (Bidirectional Encoder Representations from Transformers, 2018) is an **encoder-only** Transformer pre-trained to produce deeply bidirectional language representations, then fine-tuned for downstream tasks. It set new state-of-the-art on eleven NLP tasks.",
+      "explanation": "BERT uses the Encoder-Decoder Architecture's encoder half only, so every layer conditions on both left and right context via bidirectional Self-Attention. It is pre-trained with two objectives — Masked Language Modeling (predict masked tokens) and Next Sentence Prediction — then adapted through Pre-training and Fine-tuning with a single added output layer per task. Sizes: BASE (110M params) and LARGE (340M). BERT is a canonical early example of a Foundation Models.",
+      "sources": [
+        "raw/02_bert.md (Devlin et al., 2018)"
+      ],
+      "file": "BERT.md",
+      "in_degree": 27,
+      "out_degree": 20,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 3
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-02-bert-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 11,
+          "related": 9,
+          "contradicts": 7,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 7,
+          "related": 8,
+          "contradicts": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 101,
+      "aliases": [
+        "BERT"
+      ]
+    },
+    {
+      "id": "chinchilla",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Chinchilla",
+      "summary": "Chinchilla (*Training Compute-Optimal Large Language Models*, DeepMind, 2022) is a 70B-parameter model trained on 4× more data than Gopher under the same compute budget. It outperforms much larger models — including the 175B GPT-3 — establishing that most large LMs were **undertrained**.",
+      "explanation": "Chinchilla is the empirical proof of Compute-Optimal Scaling: by training 400+ models, the authors show that for a fixed compute budget, parameters and training tokens should scale **equally**. Applying this, a smaller-but-better-fed model beats parameter-heavy giants (Gopher 280B, GPT-3 175B, Megatron-Turing 530B) and reaches 67.5% on MMLU. It also costs less to fine-tune (Pre-training and Fine-tuning) and to serve. Chinchilla directly reshapes what Scale and Scaling means.",
+      "sources": [
+        "raw/06_chinchilla.md (Hoffmann et al., 2022)"
+      ],
+      "file": "Chinchilla.md",
+      "in_degree": 9,
+      "out_degree": 14,
+      "edges": [
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-06-chinchilla-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 2,
+          "related": 4,
+          "contradicts": 3,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 4,
+          "related": 6,
+          "contradicts": 3,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 109,
+      "aliases": [
+        "Chinchilla"
+      ]
+    },
+    {
+      "id": "compute-optimal-scaling",
+      "type": "concept",
+      "kind": "fact",
+      "title": "Compute-Optimal Scaling",
+      "summary": "The principle, established by Chinchilla (Hoffmann et al., 2022), that under a fixed compute budget a transformer language model's parameter count and number of training tokens should be scaled **equally** — for every doubling of model size, double the training data.",
+      "explanation": "Earlier scaling practice (embodied by GPT-3) grew parameters while holding data roughly constant, producing large but **undertrained** models. By training 400+ models from 70M to 16B parameters across 5–500B tokens, Chinchilla derived a compute-optimal frontier and confirmed it: a 70B compute-optimal model beats a 280B and even the 175B GPT-3. This refines — and partly corrects — the notion of Scale and Scaling, shifting it from *parameters-first* to *parameters-and-data-balanced*, and has direct consequences for Emergent Capabilities (they depend on training tokens, not just size).",
+      "sources": [
+        "raw/06_chinchilla.md (Hoffmann et al., 2022)"
+      ],
+      "file": "Compute-Optimal Scaling.md",
+      "in_degree": 9,
+      "out_degree": 11,
+      "edges": [
+        {
+          "target": "chinchilla",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 2
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-06-chinchilla-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 2,
+          "related": 4,
+          "contradicts": 3,
+          "indexes": 1,
+          "records": 1
+        },
+        "out": {
+          "mentions": 4,
+          "related": 5,
+          "contradicts": 1,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 125,
+      "aliases": [
+        "Compute-Optimal Scaling"
+      ]
+    },
+    {
+      "id": "emergent-capabilities",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Emergent Capabilities",
+      "summary": "Abilities that appear in large models but are absent (or much weaker) in smaller ones, arising implicitly from Scale and Scaling rather than being explicitly trained.",
+      "explanation": "GPT-3 documents emergent behaviors such as on-the-fly reasoning, 3-digit arithmetic, word unscrambling, and using novel words in a sentence — all via In-Context Learning. Foundation Models elevates *emergence* to one of the two defining properties of the paradigm (alongside Homogenization), noting that because these capabilities are emergent, we often lack a clear understanding of how the models work, when they fail, or what they can do.",
+      "sources": [
+        "raw/03_gpt3.md (Brown et al., 2020); raw/04_foundation_models.md (Bommasani et al., 2021)"
+      ],
+      "file": "Emergent Capabilities.md",
+      "in_degree": 14,
+      "out_degree": 18,
+      "edges": [
+        {
+          "target": "scale-and-scaling",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-03-gpt3-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 7,
+          "related": 7,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 5,
+          "related": 8,
+          "contradicts": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 92,
+      "aliases": [
+        "Emergent Capabilities"
+      ]
+    },
+    {
+      "id": "encoder-decoder-architecture",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Encoder-Decoder Architecture",
+      "summary": "The structure the Transformer follows: an encoder maps an input sequence to continuous representations, and a decoder generates an output sequence one element at a time, consuming previously generated symbols (Autoregressive Language Model behavior).",
+      "explanation": "In the Transformer, the encoder is a stack of N=6 identical layers (self-attention + feed-forward), and the decoder adds a third sub-layer that attends over the encoder output (\"encoder–decoder attention\"). Both use residual connections and Layer Normalization. Later models specialize this design: BERT uses **encoder-only** (good for understanding tasks via Masked Language Modeling), while GPT-3 uses **decoder-only** (good for generation as an Autoregressive Language Model).",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Encoder-Decoder Architecture.md",
+      "in_degree": 7,
+      "out_degree": 15,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "layer-normalization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "layer-normalization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 3,
+          "related": 4,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 6,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 99,
+      "aliases": [
+        "Encoder-Decoder Architecture"
+      ]
+    },
+    {
+      "id": "few-shot-learning",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Few-Shot Learning",
+      "summary": "Performing a task from only a few examples. In the GPT-3 context, few-shot means providing a handful of demonstrations in the prompt via In-Context Learning, rather than training on a large labeled dataset.",
+      "explanation": "GPT-3 evaluates zero-, one-, and few-shot settings and shows that few-shot performance improves markedly with model Scale and Scaling, sometimes approaching fine-tuned state-of-the-art. This contrasts with the prior norm of task-specific datasets of thousands of examples used in Pre-training and Fine-tuning. Few-shot ability is one of the Emergent Capabilities associated with large Foundation Models.",
+      "sources": [
+        "raw/03_gpt3.md (Brown et al., 2020)"
+      ],
+      "file": "Few-Shot Learning.md",
+      "in_degree": 7,
+      "out_degree": 16,
+      "edges": [
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-03-gpt3-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "related": 4,
+          "mentions": 3,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 6,
+          "contradicts": 3,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 87,
+      "aliases": [
+        "Few-Shot Learning"
+      ]
+    },
+    {
+      "id": "foundation-models",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Foundation Models",
+      "summary": "Coined by Stanford's CRFM (*On the Opportunities and Risks of Foundation Models*, 2021): a model trained on broad data at scale and adaptable to a wide range of downstream tasks. Examples given include BERT, DALL-E, and GPT-3.",
+      "explanation": "The report names two defining properties: **emergence** (Emergent Capabilities arise from Scale and Scaling) and **Homogenization** (one model underlies many applications). Foundation models are built on standard deep learning, the Transformer, and Pre-training and Fine-tuning, but their scale changes their character. The report is explicitly sociotechnical, spanning capabilities, technical principles, applications (law, healthcare, education), and societal impact (inequity, misuse, environment). RLHF is one concrete technique for improving how such models serve users (Alignment).",
+      "sources": [
+        "raw/04_foundation_models.md (Bommasani et al., 2021)"
+      ],
+      "file": "Foundation Models.md",
+      "in_degree": 23,
+      "out_degree": 21,
+      "edges": [
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-04-foundation-models-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 11,
+          "related": 11,
+          "contradicts": 1,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 9,
+          "related": 9,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 110,
+      "aliases": [
+        "Foundation Models"
+      ]
+    },
+    {
+      "id": "gpt-3",
+      "type": "concept",
+      "kind": "schema",
+      "title": "GPT-3",
+      "summary": "GPT-3 (*Language Models are Few-Shot Learners*, 2020) is a 175-billion-parameter **decoder-only** Autoregressive Language Model. Its central claim: scaling up language models yields strong task-agnostic Few-Shot Learning via In-Context Learning, often without any fine-tuning.",
+      "explanation": "GPT-3 keeps only the decoder half of the Encoder-Decoder Architecture, using masked Self-Attention. At 10x the size of any prior dense LM, it exhibits Emergent Capabilities — on-the-fly reasoning, arithmetic, word unscrambling — specified purely through the prompt. This shifts the paradigm from Pre-training and Fine-tuning toward pretrain-then-prompt. GPT-3 is a headline Foundation Models, and its scale-centric framing is directly challenged by RLHF.",
+      "sources": [
+        "raw/03_gpt3.md (Brown et al., 2020)"
+      ],
+      "file": "GPT-3.md",
+      "in_degree": 47,
+      "out_degree": 30,
+      "edges": [
+        {
+          "target": "autoregressive-language-model",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 2
+        },
+        {
+          "target": "alignment",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-03-gpt3-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 19,
+          "related": 15,
+          "contradicts": 13,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 9,
+          "related": 14,
+          "contradicts": 6,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 96,
+      "aliases": [
+        "GPT-3"
+      ]
+    },
+    {
+      "id": "homogenization",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Homogenization",
+      "summary": "The tendency, described in *Foundation Models*, for a single model to become the shared basis for many downstream applications — concentrating both capability and risk.",
+      "explanation": "Homogenization is one of the two defining properties of Foundation Models (with Emergent Capabilities). Because many systems adapt the *same* base model via Pre-training and Fine-tuning or In-Context Learning, improvements propagate widely — powerful leverage. But so do defects: bias, errors, or vulnerabilities in the base model are inherited by every downstream model, creating a single point of failure. This is why Alignment techniques like RLHF on the base model matter so much.",
+      "sources": [
+        "raw/04_foundation_models.md (Bommasani et al., 2021)"
+      ],
+      "file": "Homogenization.md",
+      "in_degree": 9,
+      "out_degree": 13,
+      "edges": [
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-04-foundation-models-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 4,
+          "related": 4,
+          "contradicts": 1,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 6,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 98,
+      "aliases": [
+        "Homogenization"
+      ]
+    },
+    {
+      "id": "in-context-learning",
+      "type": "concept",
+      "kind": "concept",
+      "title": "In-Context Learning",
+      "summary": "The ability, highlighted by GPT-3, to perform a new task by conditioning on instructions and/or a few examples provided in the prompt at inference time — with **no gradient updates or fine-tuning**.",
+      "explanation": "In-context learning covers zero-shot (instruction only), one-shot, and few-shot (a handful of demonstrations) settings. The task is specified purely via text interaction. This reframes adaptation: instead of Pre-training and Fine-tuning with labeled data per task, the same frozen model handles many tasks from the prompt. It is closely tied to Few-Shot Learning and is an emergent capability of Scale and Scaling.",
+      "sources": [
+        "raw/03_gpt3.md (Brown et al., 2020)"
+      ],
+      "file": "In-Context Learning.md",
+      "in_degree": 17,
+      "out_degree": 13,
+      "edges": [
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-03-gpt3-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 7,
+          "related": 7,
+          "contradicts": 3,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 5,
+          "related": 5,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 93,
+      "aliases": [
+        "In-Context Learning"
+      ]
+    },
+    {
+      "id": "layer-normalization",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Layer Normalization",
+      "summary": "A normalization technique applied around each sub-layer in the Transformer, combined with residual connections: the output of each sub-layer is `LayerNorm(x + Sublayer(x))`.",
+      "explanation": "Residual connections plus layer normalization stabilize and speed up training of deep stacks, letting the Transformer scale to many layers. All sub-layers and embedding layers produce outputs of dimension dmodel=512 to make the residual sums well-defined. This pattern is inherited by BERT, GPT-3, and other Foundation Models.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Layer Normalization.md",
+      "in_degree": 4,
+      "out_degree": 7,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 2,
+          "related": 2,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 4,
+          "related": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 70,
+      "aliases": [
+        "Layer Normalization"
+      ]
+    },
+    {
+      "id": "masked-language-modeling",
+      "type": "concept",
+      "kind": "procedure",
+      "title": "Masked Language Modeling",
+      "summary": "The pre-training objective introduced by BERT: randomly mask ~15% of input tokens and train the model to predict them from surrounding context on both sides.",
+      "explanation": "Masked Language Modeling (MLM) is what enables BERT's deep bidirectionality. Standard left-to-right language modeling (as in GPT-3's Autoregressive Language Model) cannot condition on future tokens without trivially \"seeing the answer.\" By masking tokens and predicting them, MLM lets every layer's Self-Attention use both left and right context. It is paired with Next Sentence Prediction during Pre-training and Fine-tuning.",
+      "sources": [
+        "raw/02_bert.md (Devlin et al., 2018)"
+      ],
+      "file": "Masked Language Modeling.md",
+      "in_degree": 13,
+      "out_degree": 14,
+      "edges": [
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-02-bert-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 5,
+          "related": 4,
+          "contradicts": 4,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 5,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 83,
+      "aliases": [
+        "Masked Language Modeling"
+      ]
+    },
+    {
+      "id": "multi-head-attention",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Multi-Head Attention",
+      "summary": "Instead of a single attention function, the Transformer linearly projects queries, keys, and values h times into lower-dimensional subspaces, applies Scaled Dot-Product Attention in parallel on each, then concatenates and projects the results.",
+      "explanation": "Multiple heads let the model jointly attend to information from different representation subspaces at different positions — something a single averaged attention head inhibits. The original Transformer uses h=8 heads with dₖ=dᵥ=dmodel/h=64, so total computation is similar to single-head attention at full dimensionality. This is the mechanism that gives Self-Attention its expressive power and is inherited by BERT and GPT-3.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Multi-Head Attention.md",
+      "in_degree": 8,
+      "out_degree": 10,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "attention-mechanism",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 4,
+          "related": 4,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 5,
+          "related": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 93,
+      "aliases": [
+        "Multi-Head Attention"
+      ]
+    },
+    {
+      "id": "next-sentence-prediction",
+      "type": "concept",
+      "kind": "procedure",
+      "title": "Next Sentence Prediction",
+      "summary": "A secondary pre-training objective in BERT: given two sentences A and B, predict whether B actually follows A in the corpus. Intended to teach inter-sentence relationships useful for tasks like question answering and natural language inference.",
+      "explanation": "Next Sentence Prediction (NSP) complements Masked Language Modeling during Pre-training and Fine-tuning. Sentence pairs are joined with special [CLS]/[SEP] tokens, and the [CLS] representation is used for the binary prediction. NSP was later questioned by follow-up work (e.g., RoBERTa) as providing limited benefit, but within the current sources it is presented as a core part of BERT's recipe.",
+      "sources": [
+        "raw/02_bert.md (Devlin et al., 2018)"
+      ],
+      "file": "Next Sentence Prediction.md",
+      "in_degree": 6,
+      "out_degree": 7,
+      "edges": [
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-02-bert-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 3,
+          "related": 3,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 3,
+          "related": 3,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 94,
+      "aliases": [
+        "Next Sentence Prediction"
+      ]
+    },
+    {
+      "id": "positional-encoding",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Positional Encoding",
+      "summary": "Because the Transformer has no recurrence or convolution, it must inject information about token order explicitly. Positional encodings — added to the input embeddings — provide this.",
+      "explanation": "The original Transformer uses fixed sinusoidal functions of different frequencies: `PE(pos,2i)=sin(pos/10000^(2i/dmodel))` and `PE(pos,2i+1)=cos(...)`. These have the same dimension as the embeddings so the two can be summed. The sinusoidal choice was hypothesized to help the model attend by relative positions and to extrapolate to sequence lengths longer than seen in training. The authors found learned positional embeddings performed nearly identically. Without positional encoding, Self-Attention would be order-invariant.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Positional Encoding.md",
+      "in_degree": 2,
+      "out_degree": 5,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 1,
+          "related": 1,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 2,
+          "related": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 94,
+      "aliases": [
+        "Positional Encoding"
+      ]
+    },
+    {
+      "id": "pre-training-and-fine-tuning",
+      "type": "concept",
+      "kind": "procedure",
+      "title": "Pre-training and Fine-tuning",
+      "summary": "A two-stage transfer-learning recipe: first pre-train a model on large unlabeled text with a self-supervised objective, then fine-tune it (with gradient updates) on a smaller labeled dataset for a specific task.",
+      "explanation": "BERT is the canonical example: pre-train with Masked Language Modeling + Next Sentence Prediction, then add one output layer and fine-tune per task. This paradigm made strong NLP results widely accessible and is a defining mechanism of Foundation Models (train once, adapt many times). GPT-3 challenges the *fine-tuning* half of this recipe by showing that In-Context Learning can solve tasks with no gradient updates. RLHF is a specialized fine-tuning stage layered on top of a pre-trained model.",
+      "sources": [
+        "raw/02_bert.md (Devlin et al., 2018); raw/03_gpt3.md (Brown et al., 2020)"
+      ],
+      "file": "Pre-training and Fine-tuning.md",
+      "in_degree": 21,
+      "out_degree": 20,
+      "edges": [
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-02-bert-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 10,
+          "related": 10,
+          "contradicts": 1,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 7,
+          "related": 7,
+          "contradicts": 5,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 108,
+      "aliases": [
+        "Pre-training and Fine-tuning"
+      ]
+    },
+    {
+      "id": "proximal-policy-optimization",
+      "type": "concept",
+      "kind": "procedure",
+      "title": "Proximal Policy Optimization",
+      "summary": "PPO is the reinforcement-learning algorithm used in the RL stage of RLHF to fine-tune the language model policy against the learned reward signal from Reward Modeling.",
+      "explanation": "In RLHF, the pre-trained/supervised model is treated as a policy that generates outputs; Reward Modeling provides the reward. PPO updates the policy to maximize this reward while a constraint (a KL penalty toward the supervised model) keeps it from drifting too far and exploiting the reward model. This produces InstructGPT — a model better aligned to user intent than the base GPT-3.",
+      "sources": [
+        "raw/05_rlhf_instructgpt.md (Ouyang et al., 2022)"
+      ],
+      "file": "Proximal Policy Optimization.md",
+      "in_degree": 7,
+      "out_degree": 8,
+      "edges": [
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "reward-modeling",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "reward-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-05-rlhf-instructgpt-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 3,
+          "related": 3,
+          "contradicts": 1,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 3,
+          "related": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 88,
+      "aliases": [
+        "Proximal Policy Optimization"
+      ]
+    },
+    {
+      "id": "rlhf",
+      "type": "concept",
+      "kind": "procedure",
+      "title": "RLHF",
+      "summary": "Reinforcement Learning from Human Feedback: the technique in *Training Language Models to Follow Instructions with Human Feedback* (2022) used to align GPT-3 into **InstructGPT**. It fine-tunes a model to follow user intent using human preference data.",
+      "explanation": "RLHF is a three-step pipeline layered on a pre-trained model:\n1. **Supervised fine-tuning (SFT)** on labeler-written demonstrations.\n2. **Reward Modeling** — train a reward model to predict human rankings of outputs.\n3. **RL optimization** — fine-tune the policy against the reward model using Proximal Policy Optimization.\n\nThe goal is Alignment: making models helpful, honest, and harmless. It is a specialized form of Pre-training and Fine-tuning and the bridge from raw Foundation Models to modern assistants like ChatGPT.",
+      "sources": [
+        "raw/05_rlhf_instructgpt.md (Ouyang et al., 2022)"
+      ],
+      "file": "RLHF.md",
+      "in_degree": 22,
+      "out_degree": 16,
+      "edges": [
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "reward-modeling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "reward-modeling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 3
+        },
+        {
+          "target": "in-context-learning",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-05-rlhf-instructgpt-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 8,
+          "related": 8,
+          "contradicts": 6,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 6,
+          "related": 7,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 113,
+      "aliases": [
+        "RLHF"
+      ]
+    },
+    {
+      "id": "reward-modeling",
+      "type": "concept",
+      "kind": "procedure",
+      "title": "Reward Modeling",
+      "summary": "The step in RLHF where a model is trained to predict human preferences: given multiple model outputs for a prompt, it learns to score them consistent with human rankings, providing the reward signal for RL.",
+      "explanation": "Human labelers rank several candidate outputs for each prompt; these rankings train a reward model to approximate \"what humans prefer.\" That learned reward then guides policy optimization via Proximal Policy Optimization. Reward modeling is what lets Alignment scale beyond the limited set of hand-written demonstrations used in the supervised stage — humans need only *compare* outputs, not write ideal ones.",
+      "sources": [
+        "raw/05_rlhf_instructgpt.md (Ouyang et al., 2022)"
+      ],
+      "file": "Reward Modeling.md",
+      "in_degree": 6,
+      "out_degree": 8,
+      "edges": [
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-05-rlhf-instructgpt-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 3,
+          "related": 3,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 3,
+          "related": 3,
+          "contradicts": 1,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 95,
+      "aliases": [
+        "Reward Modeling"
+      ]
+    },
+    {
+      "id": "scale-and-scaling",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Scale and Scaling",
+      "summary": "The observation that increasing model size, data, and compute reliably improves language-model capability — a central theme connecting GPT-3 and Foundation Models.",
+      "explanation": "GPT-3 operationalizes scaling: at 175B parameters it unlocks strong Few-Shot Learning and In-Context Learning not seen in smaller models. Foundation Models generalizes the point — scale is what produces Emergent Capabilities and drives Homogenization across applications. Scaling is a mechanism, not a guarantee of quality: RLHF shows that beyond a point, Alignment can matter more than additional parameters, and Chinchilla shows that *how* you scale matters — see Compute-Optimal Scaling.",
+      "sources": [
+        "raw/03_gpt3.md (Brown et al., 2020); raw/04_foundation_models.md (Bommasani et al., 2021); raw/05_rlhf_instructgpt.md (Ouyang et al., 2022); raw/06_chinchilla.md (Hoffmann et al., 2022)"
+      ],
+      "file": "Scale and Scaling.md",
+      "in_degree": 17,
+      "out_degree": 25,
+      "edges": [
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 2
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "in-context-learning",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "homogenization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-03-gpt3-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "related": 9,
+          "contradicts": 2,
+          "mentions": 6,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 10,
+          "related": 10,
+          "contradicts": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 92,
+      "aliases": [
+        "Scale and Scaling"
+      ]
+    },
+    {
+      "id": "scaled-dot-product-attention",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Scaled Dot-Product Attention",
+      "summary": "The specific Attention Mechanism used in the Transformer: `Attention(Q, K, V) = softmax(QKᵀ / √dₖ) V`. Dot products of queries and keys are scaled by 1/√dₖ before the softmax.",
+      "explanation": "The scaling factor 1/√dₖ is the key detail. For large key dimension dₖ, unscaled dot products grow large in magnitude, pushing the softmax into regions with vanishingly small gradients. Dividing by √dₖ keeps the softmax in a well-behaved range. Dot-product attention is preferred over additive attention because it can be implemented with highly optimized matrix multiplication, making it fast and memory-efficient. Multiple instances run in parallel form Multi-Head Attention; when Q, K, V share a source it becomes Self-Attention.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Scaled Dot-Product Attention.md",
+      "in_degree": 8,
+      "out_degree": 9,
+      "edges": [
+        {
+          "target": "attention-mechanism",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "attention-mechanism",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 4,
+          "related": 4,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 4,
+          "related": 4,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 108,
+      "aliases": [
+        "Scaled Dot-Product Attention"
+      ]
+    },
+    {
+      "id": "self-attention",
+      "type": "concept",
+      "kind": "concept",
+      "title": "Self-Attention",
+      "summary": "Self-attention (intra-attention) is an Attention Mechanism where the queries, keys, and values all come from the same sequence, letting each position attend to every other position to build a context-aware representation.",
+      "explanation": "Self-attention is the core computation of the Transformer. A self-attention layer connects all positions with O(1) sequential operations and a constant maximum path length, versus O(n) for recurrent layers — this is why Transformers parallelize well and capture long-range dependencies. In the decoder, self-attention is *masked* so a position can only attend to earlier positions, preserving the Autoregressive Language Model property used by GPT-3. BERT instead uses unmasked (bidirectional) self-attention. In practice it is realized as Multi-Head Attention over Scaled Dot-Product Attention.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Self-Attention.md",
+      "in_degree": 19,
+      "out_degree": 17,
+      "edges": [
+        {
+          "target": "attention-mechanism",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "attention-mechanism",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "transformer",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 9,
+          "related": 10,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 7,
+          "related": 6,
+          "contradicts": 3,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 113,
+      "aliases": [
+        "Self-Attention"
+      ]
+    },
+    {
+      "id": "transformer",
+      "type": "concept",
+      "kind": "schema",
+      "title": "Transformer",
+      "summary": "The Transformer is a neural network architecture based entirely on Attention Mechanism, dispensing with recurrence and convolution. Introduced in *Attention Is All You Need* (2017), it became the foundation for essentially all modern large language models.",
+      "explanation": "The Transformer uses an Encoder-Decoder Architecture where each stack is built from repeated layers of Self-Attention and position-wise feed-forward networks, wrapped with residual connections and Layer Normalization. Because Self-Attention relates all positions in a sequence in a constant number of sequential operations, the Transformer is far more parallelizable than recurrent networks and better at learning long-range dependencies. Word order is supplied by Positional Encoding rather than recurrence. Its attention is computed via Scaled Dot-Product Attention and run in parallel across several Multi-Head Attention heads.\n\nLater architectures specialize the two halves: BERT keeps only the encoder for bidirectional understanding, while GPT-3 keeps only the decoder as an Autoregressive Language Model. These are the building blocks of Foundation Models.",
+      "sources": [
+        "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)"
+      ],
+      "file": "Transformer.md",
+      "in_degree": 22,
+      "out_degree": 23,
+      "edges": [
+        {
+          "target": "attention-mechanism",
+          "type": "mentions",
+          "via": "Summary",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 2
+        },
+        {
+          "target": "layer-normalization",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "positional-encoding",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "foundation-models",
+          "type": "mentions",
+          "via": "Explanation",
+          "weight": 1
+        },
+        {
+          "target": "attention-mechanism",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "positional-encoding",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "layer-normalization",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "related",
+          "via": "Related",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "gpt-3",
+          "type": "contradicts",
+          "via": "Contradictions / tensions",
+          "weight": 1
+        },
+        {
+          "target": "src:raw-01-attention-is-all-you-need-md",
+          "type": "cites",
+          "via": "Sources",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {
+          "mentions": 10,
+          "related": 12,
+          "indexes": 1
+        },
+        "out": {
+          "mentions": 11,
+          "related": 9,
+          "contradicts": 2,
+          "cites": 1
+        }
+      },
+      "n_sources": 1,
+      "word_count": 153,
+      "aliases": [
+        "Transformer"
+      ]
+    },
+    {
+      "id": "wiki-index",
+      "type": "index",
+      "kind": null,
+      "title": "Wiki Index",
+      "summary": "",
+      "explanation": "",
+      "sources": [],
+      "file": "index.md",
+      "in_degree": 0,
+      "out_degree": 0,
+      "edges": [
+        {
+          "target": "transformer",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "attention-mechanism",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "scaled-dot-product-attention",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "multi-head-attention",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "self-attention",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "positional-encoding",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "encoder-decoder-architecture",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "layer-normalization",
+          "type": "indexes",
+          "via": "Transformer architecture (Vaswani et al., 2017)",
+          "weight": 1
+        },
+        {
+          "target": "bert",
+          "type": "indexes",
+          "via": "Understanding & pretraining (Devlin et al., 2018)",
+          "weight": 2
+        },
+        {
+          "target": "masked-language-modeling",
+          "type": "indexes",
+          "via": "Understanding & pretraining (Devlin et al., 2018)",
+          "weight": 2
+        },
+        {
+          "target": "next-sentence-prediction",
+          "type": "indexes",
+          "via": "Understanding & pretraining (Devlin et al., 2018)",
+          "weight": 1
+        },
+        {
+          "target": "pre-training-and-fine-tuning",
+          "type": "indexes",
+          "via": "Understanding & pretraining (Devlin et al., 2018)",
+          "weight": 2
+        },
+        {
+          "target": "gpt-3",
+          "type": "indexes",
+          "via": "Scale & few-shot learning (Brown et al., 2020)",
+          "weight": 5
+        },
+        {
+          "target": "autoregressive-language-model",
+          "type": "indexes",
+          "via": "Scale & few-shot learning (Brown et al., 2020)",
+          "weight": 2
+        },
+        {
+          "target": "in-context-learning",
+          "type": "indexes",
+          "via": "Scale & few-shot learning (Brown et al., 2020)",
+          "weight": 2
+        },
+        {
+          "target": "few-shot-learning",
+          "type": "indexes",
+          "via": "Scale & few-shot learning (Brown et al., 2020)",
+          "weight": 1
+        },
+        {
+          "target": "scale-and-scaling",
+          "type": "indexes",
+          "via": "Scale & few-shot learning (Brown et al., 2020)",
+          "weight": 1
+        },
+        {
+          "target": "emergent-capabilities",
+          "type": "indexes",
+          "via": "Scale & few-shot learning (Brown et al., 2020)",
+          "weight": 1
+        },
+        {
+          "target": "chinchilla",
+          "type": "indexes",
+          "via": "Compute-optimal scaling (Hoffmann et al., 2022)",
+          "weight": 3
+        },
+        {
+          "target": "compute-optimal-scaling",
+          "type": "indexes",
+          "via": "Compute-optimal scaling (Hoffmann et al., 2022)",
+          "weight": 2
+        },
+        {
+          "target": "foundation-models",
+          "type": "indexes",
+          "via": "The paradigm (Bommasani et al., 2021)",
+          "weight": 2
+        },
+        {
+          "target": "homogenization",
+          "type": "indexes",
+          "via": "The paradigm (Bommasani et al., 2021)",
+          "weight": 1
+        },
+        {
+          "target": "rlhf",
+          "type": "indexes",
+          "via": "Alignment (Ouyang et al., 2022)",
+          "weight": 2
+        },
+        {
+          "target": "reward-modeling",
+          "type": "indexes",
+          "via": "Alignment (Ouyang et al., 2022)",
+          "weight": 1
+        },
+        {
+          "target": "proximal-policy-optimization",
+          "type": "indexes",
+          "via": "Alignment (Ouyang et al., 2022)",
+          "weight": 1
+        },
+        {
+          "target": "alignment",
+          "type": "indexes",
+          "via": "Alignment (Ouyang et al., 2022)",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {},
+        "out": {
+          "indexes": 26
+        }
+      }
+    },
+    {
+      "id": "compilation-log",
+      "type": "log",
+      "kind": null,
+      "title": "Compilation Log",
+      "summary": "",
+      "explanation": "",
+      "sources": [],
+      "file": "log.md",
+      "in_degree": 0,
+      "out_degree": 0,
+      "edges": [
+        {
+          "target": "compute-optimal-scaling",
+          "type": "records",
+          "via": "2026-07-23 — Linting/audit pass (Step 6)",
+          "weight": 1
+        }
+      ],
+      "degree_by_type": {
+        "in": {},
+        "out": {
+          "records": 1
+        }
+      }
+    },
+    {
+      "id": "src:raw-05-rlhf-instructgpt-md",
+      "type": "source",
+      "kind": null,
+      "ref": "raw/05_rlhf_instructgpt.md (Ouyang et al., 2022)",
+      "path": "raw/05_rlhf_instructgpt.md",
+      "title": "raw/05_rlhf_instructgpt.md (Ouyang et al., 2022)",
+      "in_degree": 4,
+      "out_degree": 0,
+      "edges": [],
+      "degree_by_type": {
+        "in": {
+          "cites": 4
+        },
+        "out": {}
+      }
+    },
+    {
+      "id": "src:raw-01-attention-is-all-you-need-md",
+      "type": "source",
+      "kind": null,
+      "ref": "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)",
+      "path": "raw/01_attention_is_all_you_need.md",
+      "title": "raw/01_attention_is_all_you_need.md (Vaswani et al., 2017)",
+      "in_degree": 9,
+      "out_degree": 0,
+      "edges": [],
+      "degree_by_type": {
+        "in": {
+          "cites": 9
+        },
+        "out": {}
+      }
+    },
+    {
+      "id": "src:raw-02-bert-md",
+      "type": "source",
+      "kind": null,
+      "ref": "raw/02_bert.md (Devlin et al., 2018)",
+      "path": "raw/02_bert.md",
+      "title": "raw/02_bert.md (Devlin et al., 2018)",
+      "in_degree": 4,
+      "out_degree": 0,
+      "edges": [],
+      "degree_by_type": {
+        "in": {
+          "cites": 4
+        },
+        "out": {}
+      }
+    },
+    {
+      "id": "src:raw-06-chinchilla-md",
+      "type": "source",
+      "kind": null,
+      "ref": "raw/06_chinchilla.md (Hoffmann et al., 2022)",
+      "path": "raw/06_chinchilla.md",
+      "title": "raw/06_chinchilla.md (Hoffmann et al., 2022)",
+      "in_degree": 2,
+      "out_degree": 0,
+      "edges": [],
+      "degree_by_type": {
+        "in": {
+          "cites": 2
+        },
+        "out": {}
+      }
+    },
+    {
+      "id": "src:raw-03-gpt3-md",
+      "type": "source",
+      "kind": null,
+      "ref": "raw/03_gpt3.md (Brown et al., 2020); raw/04_foundation_models.md (Bommasani et al., 2021)",
+      "path": "raw/03_gpt3.md",
+      "title": "raw/03_gpt3.md (Brown et al., 2020); raw/04_foundation_models.md (Bommasani et al., 2021)",
+      "in_degree": 5,
+      "out_degree": 0,
+      "edges": [],
+      "degree_by_type": {
+        "in": {
+          "cites": 5
+        },
+        "out": {}
+      }
+    },
+    {
+      "id": "src:raw-04-foundation-models-md",
+      "type": "source",
+      "kind": null,
+      "ref": "raw/04_foundation_models.md (Bommasani et al., 2021)",
+      "path": "raw/04_foundation_models.md",
+      "title": "raw/04_foundation_models.md (Bommasani et al., 2021)",
+      "in_degree": 2,
+      "out_degree": 0,
+      "edges": [],
+      "degree_by_type": {
+        "in": {
+          "cites": 2
+        },
+        "out": {}
+      }
+    }
+  ],
+  "links": [
+    {
+      "source": "alignment",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "reward-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "proximal-policy-optimization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "homogenization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "reward-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "proximal-policy-optimization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "homogenization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "scale-and-scaling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "alignment",
+      "target": "src:raw-05-rlhf-instructgpt-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "scaled-dot-product-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "multi-head-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "scaled-dot-product-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "multi-head-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "attention-mechanism",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "masked-language-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "masked-language-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "masked-language-modeling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "autoregressive-language-model",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "encoder-decoder-architecture",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "masked-language-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "next-sentence-prediction",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "encoder-decoder-architecture",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "masked-language-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "next-sentence-prediction",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 3
+    },
+    {
+      "source": "bert",
+      "target": "masked-language-modeling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "pre-training-and-fine-tuning",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "in-context-learning",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "bert",
+      "target": "src:raw-02-bert-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "chinchilla",
+      "target": "compute-optimal-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "scale-and-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "compute-optimal-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "scale-and-scaling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "rlhf",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "chinchilla",
+      "target": "src:raw-06-chinchilla-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "chinchilla",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "scale-and-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "chinchilla",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "compute-optimal-scaling",
+      "target": "src:raw-06-chinchilla-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "scale-and-scaling",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "homogenization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "few-shot-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "homogenization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "compute-optimal-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "chinchilla",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "foundation-models",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "compute-optimal-scaling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "chinchilla",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "emergent-capabilities",
+      "target": "src:raw-03-gpt3-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "autoregressive-language-model",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "layer-normalization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "masked-language-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "layer-normalization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "autoregressive-language-model",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "encoder-decoder-architecture",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "scale-and-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "alignment",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "rlhf",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "few-shot-learning",
+      "target": "src:raw-03-gpt3-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "scale-and-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "homogenization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "alignment",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "homogenization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "alignment",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "homogenization",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "foundation-models",
+      "target": "src:raw-04-foundation-models-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "autoregressive-language-model",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "few-shot-learning",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "encoder-decoder-architecture",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "autoregressive-language-model",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "few-shot-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "encoder-decoder-architecture",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "chinchilla",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "compute-optimal-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "masked-language-modeling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "rlhf",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 2
+    },
+    {
+      "source": "gpt-3",
+      "target": "alignment",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "chinchilla",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "compute-optimal-scaling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "gpt-3",
+      "target": "src:raw-03-gpt3-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "alignment",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "alignment",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "homogenization",
+      "target": "src:raw-04-foundation-models-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "few-shot-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "scale-and-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "few-shot-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "rlhf",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "in-context-learning",
+      "target": "src:raw-03-gpt3-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "layer-normalization",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "layer-normalization",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "layer-normalization",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "layer-normalization",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "layer-normalization",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "layer-normalization",
+      "target": "encoder-decoder-architecture",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "layer-normalization",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "autoregressive-language-model",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "next-sentence-prediction",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "next-sentence-prediction",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "autoregressive-language-model",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "autoregressive-language-model",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "masked-language-modeling",
+      "target": "src:raw-02-bert-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "scaled-dot-product-attention",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "scaled-dot-product-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "attention-mechanism",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "multi-head-attention",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "masked-language-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "masked-language-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "next-sentence-prediction",
+      "target": "src:raw-02-bert-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "positional-encoding",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "positional-encoding",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "positional-encoding",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "positional-encoding",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "positional-encoding",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "masked-language-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "next-sentence-prediction",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "masked-language-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "next-sentence-prediction",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "in-context-learning",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "rlhf",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "alignment",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "pre-training-and-fine-tuning",
+      "target": "src:raw-02-bert-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "reward-modeling",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "reward-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "alignment",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "proximal-policy-optimization",
+      "target": "src:raw-05-rlhf-instructgpt-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "reward-modeling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "proximal-policy-optimization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "alignment",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "pre-training-and-fine-tuning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "reward-modeling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "proximal-policy-optimization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "alignment",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "pre-training-and-fine-tuning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "scale-and-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 3
+    },
+    {
+      "source": "rlhf",
+      "target": "in-context-learning",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "rlhf",
+      "target": "src:raw-05-rlhf-instructgpt-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "proximal-policy-optimization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "alignment",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "proximal-policy-optimization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "alignment",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "proximal-policy-optimization",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "reward-modeling",
+      "target": "src:raw-05-rlhf-instructgpt-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "few-shot-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "in-context-learning",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "emergent-capabilities",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "homogenization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "rlhf",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "alignment",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "chinchilla",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "compute-optimal-scaling",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "few-shot-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "in-context-learning",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "emergent-capabilities",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "foundation-models",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "homogenization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "rlhf",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "alignment",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "chinchilla",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "compute-optimal-scaling",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "rlhf",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "alignment",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "chinchilla",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "compute-optimal-scaling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scale-and-scaling",
+      "target": "src:raw-03-gpt3-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "attention-mechanism",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "multi-head-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "attention-mechanism",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "multi-head-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "scaled-dot-product-attention",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "attention-mechanism",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "transformer",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "autoregressive-language-model",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "multi-head-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "scaled-dot-product-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "attention-mechanism",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "multi-head-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "scaled-dot-product-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "transformer",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "autoregressive-language-model",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "masked-language-modeling",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "self-attention",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "attention-mechanism",
+      "type": "mentions",
+      "via": "Summary",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "encoder-decoder-architecture",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "self-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "transformer",
+      "target": "layer-normalization",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "positional-encoding",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "scaled-dot-product-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "multi-head-attention",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "bert",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "gpt-3",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "autoregressive-language-model",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "foundation-models",
+      "type": "mentions",
+      "via": "Explanation",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "attention-mechanism",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "self-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "multi-head-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "scaled-dot-product-attention",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "positional-encoding",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "encoder-decoder-architecture",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "layer-normalization",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "bert",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "gpt-3",
+      "type": "related",
+      "via": "Related",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "bert",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "gpt-3",
+      "type": "contradicts",
+      "via": "Contradictions / tensions",
+      "directed": false,
+      "weight": 1
+    },
+    {
+      "source": "transformer",
+      "target": "src:raw-01-attention-is-all-you-need-md",
+      "type": "cites",
+      "via": "Sources",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "transformer",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "attention-mechanism",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "scaled-dot-product-attention",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "multi-head-attention",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "self-attention",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "positional-encoding",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "encoder-decoder-architecture",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "layer-normalization",
+      "type": "indexes",
+      "via": "Transformer architecture (Vaswani et al., 2017)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "bert",
+      "type": "indexes",
+      "via": "Understanding & pretraining (Devlin et al., 2018)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "masked-language-modeling",
+      "type": "indexes",
+      "via": "Understanding & pretraining (Devlin et al., 2018)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "next-sentence-prediction",
+      "type": "indexes",
+      "via": "Understanding & pretraining (Devlin et al., 2018)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "pre-training-and-fine-tuning",
+      "type": "indexes",
+      "via": "Understanding & pretraining (Devlin et al., 2018)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "gpt-3",
+      "type": "indexes",
+      "via": "Scale & few-shot learning (Brown et al., 2020)",
+      "directed": true,
+      "weight": 5
+    },
+    {
+      "source": "wiki-index",
+      "target": "autoregressive-language-model",
+      "type": "indexes",
+      "via": "Scale & few-shot learning (Brown et al., 2020)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "in-context-learning",
+      "type": "indexes",
+      "via": "Scale & few-shot learning (Brown et al., 2020)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "few-shot-learning",
+      "type": "indexes",
+      "via": "Scale & few-shot learning (Brown et al., 2020)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "scale-and-scaling",
+      "type": "indexes",
+      "via": "Scale & few-shot learning (Brown et al., 2020)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "emergent-capabilities",
+      "type": "indexes",
+      "via": "Scale & few-shot learning (Brown et al., 2020)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "chinchilla",
+      "type": "indexes",
+      "via": "Compute-optimal scaling (Hoffmann et al., 2022)",
+      "directed": true,
+      "weight": 3
+    },
+    {
+      "source": "wiki-index",
+      "target": "compute-optimal-scaling",
+      "type": "indexes",
+      "via": "Compute-optimal scaling (Hoffmann et al., 2022)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "foundation-models",
+      "type": "indexes",
+      "via": "The paradigm (Bommasani et al., 2021)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "homogenization",
+      "type": "indexes",
+      "via": "The paradigm (Bommasani et al., 2021)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "rlhf",
+      "type": "indexes",
+      "via": "Alignment (Ouyang et al., 2022)",
+      "directed": true,
+      "weight": 2
+    },
+    {
+      "source": "wiki-index",
+      "target": "reward-modeling",
+      "type": "indexes",
+      "via": "Alignment (Ouyang et al., 2022)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "proximal-policy-optimization",
+      "type": "indexes",
+      "via": "Alignment (Ouyang et al., 2022)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "wiki-index",
+      "target": "alignment",
+      "type": "indexes",
+      "via": "Alignment (Ouyang et al., 2022)",
+      "directed": true,
+      "weight": 1
+    },
+    {
+      "source": "compilation-log",
+      "target": "compute-optimal-scaling",
+      "type": "records",
+      "via": "2026-07-23 — Linting/audit pass (Step 6)",
+      "directed": true,
+      "weight": 1
+    }
+  ]
+}

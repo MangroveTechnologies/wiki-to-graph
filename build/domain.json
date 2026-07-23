@@ -1,0 +1,739 @@
+{
+  "course": "(derived from wiki)",
+  "version": "0.1-candidate",
+  "note": "prerequisites are HEURISTIC candidates from body references; curate before use.",
+  "items": [
+    {
+      "id": "alignment",
+      "name": "Alignment",
+      "description": "Making a model's behavior match user intent and human values — in the current sources, making language models **helpful, honest, and harmless** rather than merely fluent or large."
+    },
+    {
+      "id": "attention-mechanism",
+      "name": "Attention Mechanism",
+      "description": "An attention mechanism maps a query and a set of key–value pairs to an output computed as a weighted sum of the values, where each weight reflects the compatibility of the query with the corresponding key. It lets a model focus on relevant parts of the input regardless of distance."
+    },
+    {
+      "id": "autoregressive-language-model",
+      "name": "Autoregressive Language Model",
+      "description": "A language model that generates a sequence one token at a time, each token conditioned only on the previously generated (left-context) tokens. This is the modeling style of GPT-3 and the decoder side of the Transformer."
+    },
+    {
+      "id": "bert",
+      "name": "BERT",
+      "description": "BERT (Bidirectional Encoder Representations from Transformers, 2018) is an **encoder-only** Transformer pre-trained to produce deeply bidirectional language representations, then fine-tuned for downstream tasks. It set new state-of-the-art on eleven NLP tasks."
+    },
+    {
+      "id": "chinchilla",
+      "name": "Chinchilla",
+      "description": "Chinchilla (*Training Compute-Optimal Large Language Models*, DeepMind, 2022) is a 70B-parameter model trained on 4× more data than Gopher under the same compute budget. It outperforms much larger models — including the 175B GPT-3 — establishing that most large LMs were **undertrained**."
+    },
+    {
+      "id": "compute-optimal-scaling",
+      "name": "Compute-Optimal Scaling",
+      "description": "The principle, established by Chinchilla (Hoffmann et al., 2022), that under a fixed compute budget a transformer language model's parameter count and number of training tokens should be scaled **equally** — for every doubling of model size, double the training data."
+    },
+    {
+      "id": "emergent-capabilities",
+      "name": "Emergent Capabilities",
+      "description": "Abilities that appear in large models but are absent (or much weaker) in smaller ones, arising implicitly from Scale and Scaling rather than being explicitly trained."
+    },
+    {
+      "id": "encoder-decoder-architecture",
+      "name": "Encoder-Decoder Architecture",
+      "description": "The structure the Transformer follows: an encoder maps an input sequence to continuous representations, and a decoder generates an output sequence one element at a time, consuming previously generated symbols (Autoregressive Language Model behavior)."
+    },
+    {
+      "id": "few-shot-learning",
+      "name": "Few-Shot Learning",
+      "description": "Performing a task from only a few examples. In the GPT-3 context, few-shot means providing a handful of demonstrations in the prompt via In-Context Learning, rather than training on a large labeled dataset."
+    },
+    {
+      "id": "foundation-models",
+      "name": "Foundation Models",
+      "description": "Coined by Stanford's CRFM (*On the Opportunities and Risks of Foundation Models*, 2021): a model trained on broad data at scale and adaptable to a wide range of downstream tasks. Examples given include BERT, DALL-E, and GPT-3."
+    },
+    {
+      "id": "gpt-3",
+      "name": "GPT-3",
+      "description": "GPT-3 (*Language Models are Few-Shot Learners*, 2020) is a 175-billion-parameter **decoder-only** Autoregressive Language Model. Its central claim: scaling up language models yields strong task-agnostic Few-Shot Learning via In-Context Learning, often without any fine-tuning."
+    },
+    {
+      "id": "homogenization",
+      "name": "Homogenization",
+      "description": "The tendency, described in *Foundation Models*, for a single model to become the shared basis for many downstream applications — concentrating both capability and risk."
+    },
+    {
+      "id": "in-context-learning",
+      "name": "In-Context Learning",
+      "description": "The ability, highlighted by GPT-3, to perform a new task by conditioning on instructions and/or a few examples provided in the prompt at inference time — with **no gradient updates or fine-tuning**."
+    },
+    {
+      "id": "layer-normalization",
+      "name": "Layer Normalization",
+      "description": "A normalization technique applied around each sub-layer in the Transformer, combined with residual connections: the output of each sub-layer is `LayerNorm(x + Sublayer(x))`."
+    },
+    {
+      "id": "masked-language-modeling",
+      "name": "Masked Language Modeling",
+      "description": "The pre-training objective introduced by BERT: randomly mask ~15% of input tokens and train the model to predict them from surrounding context on both sides."
+    },
+    {
+      "id": "multi-head-attention",
+      "name": "Multi-Head Attention",
+      "description": "Instead of a single attention function, the Transformer linearly projects queries, keys, and values h times into lower-dimensional subspaces, applies Scaled Dot-Product Attention in parallel on each, then concatenates and projects the results."
+    },
+    {
+      "id": "next-sentence-prediction",
+      "name": "Next Sentence Prediction",
+      "description": "A secondary pre-training objective in BERT: given two sentences A and B, predict whether B actually follows A in the corpus. Intended to teach inter-sentence relationships useful for tasks like question answering and natural language inference."
+    },
+    {
+      "id": "positional-encoding",
+      "name": "Positional Encoding",
+      "description": "Because the Transformer has no recurrence or convolution, it must inject information about token order explicitly. Positional encodings — added to the input embeddings — provide this."
+    },
+    {
+      "id": "pre-training-and-fine-tuning",
+      "name": "Pre-training and Fine-tuning",
+      "description": "A two-stage transfer-learning recipe: first pre-train a model on large unlabeled text with a self-supervised objective, then fine-tune it (with gradient updates) on a smaller labeled dataset for a specific task."
+    },
+    {
+      "id": "proximal-policy-optimization",
+      "name": "Proximal Policy Optimization",
+      "description": "PPO is the reinforcement-learning algorithm used in the RL stage of RLHF to fine-tune the language model policy against the learned reward signal from Reward Modeling."
+    },
+    {
+      "id": "rlhf",
+      "name": "RLHF",
+      "description": "Reinforcement Learning from Human Feedback: the technique in *Training Language Models to Follow Instructions with Human Feedback* (2022) used to align GPT-3 into **InstructGPT**. It fine-tunes a model to follow user intent using human preference data."
+    },
+    {
+      "id": "reward-modeling",
+      "name": "Reward Modeling",
+      "description": "The step in RLHF where a model is trained to predict human preferences: given multiple model outputs for a prompt, it learns to score them consistent with human rankings, providing the reward signal for RL."
+    },
+    {
+      "id": "scale-and-scaling",
+      "name": "Scale and Scaling",
+      "description": "The observation that increasing model size, data, and compute reliably improves language-model capability — a central theme connecting GPT-3 and Foundation Models."
+    },
+    {
+      "id": "scaled-dot-product-attention",
+      "name": "Scaled Dot-Product Attention",
+      "description": "The specific Attention Mechanism used in the Transformer: `Attention(Q, K, V) = softmax(QKᵀ / √dₖ) V`. Dot products of queries and keys are scaled by 1/√dₖ before the softmax."
+    },
+    {
+      "id": "self-attention",
+      "name": "Self-Attention",
+      "description": "Self-attention (intra-attention) is an Attention Mechanism where the queries, keys, and values all come from the same sequence, letting each position attend to every other position to build a context-aware representation."
+    },
+    {
+      "id": "transformer",
+      "name": "Transformer",
+      "description": "The Transformer is a neural network architecture based entirely on Attention Mechanism, dispensing with recurrence and convolution. Introduced in *Attention Is All You Need* (2017), it became the foundation for essentially all modern large language models."
+    }
+  ],
+  "prerequisites": [
+    [
+      "alignment",
+      "foundation-models"
+    ],
+    [
+      "alignment",
+      "homogenization"
+    ],
+    [
+      "alignment",
+      "reward-modeling"
+    ],
+    [
+      "alignment",
+      "rlhf"
+    ],
+    [
+      "alignment",
+      "scale-and-scaling"
+    ],
+    [
+      "attention-mechanism",
+      "scaled-dot-product-attention"
+    ],
+    [
+      "attention-mechanism",
+      "self-attention"
+    ],
+    [
+      "attention-mechanism",
+      "transformer"
+    ],
+    [
+      "autoregressive-language-model",
+      "encoder-decoder-architecture"
+    ],
+    [
+      "autoregressive-language-model",
+      "gpt-3"
+    ],
+    [
+      "autoregressive-language-model",
+      "masked-language-modeling"
+    ],
+    [
+      "autoregressive-language-model",
+      "self-attention"
+    ],
+    [
+      "autoregressive-language-model",
+      "transformer"
+    ],
+    [
+      "bert",
+      "attention-mechanism"
+    ],
+    [
+      "bert",
+      "autoregressive-language-model"
+    ],
+    [
+      "bert",
+      "encoder-decoder-architecture"
+    ],
+    [
+      "bert",
+      "foundation-models"
+    ],
+    [
+      "bert",
+      "layer-normalization"
+    ],
+    [
+      "bert",
+      "masked-language-modeling"
+    ],
+    [
+      "bert",
+      "multi-head-attention"
+    ],
+    [
+      "bert",
+      "next-sentence-prediction"
+    ],
+    [
+      "bert",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "bert",
+      "self-attention"
+    ],
+    [
+      "bert",
+      "transformer"
+    ],
+    [
+      "chinchilla",
+      "compute-optimal-scaling"
+    ],
+    [
+      "chinchilla",
+      "scale-and-scaling"
+    ],
+    [
+      "compute-optimal-scaling",
+      "chinchilla"
+    ],
+    [
+      "compute-optimal-scaling",
+      "scale-and-scaling"
+    ],
+    [
+      "emergent-capabilities",
+      "compute-optimal-scaling"
+    ],
+    [
+      "emergent-capabilities",
+      "few-shot-learning"
+    ],
+    [
+      "emergent-capabilities",
+      "foundation-models"
+    ],
+    [
+      "emergent-capabilities",
+      "gpt-3"
+    ],
+    [
+      "emergent-capabilities",
+      "homogenization"
+    ],
+    [
+      "emergent-capabilities",
+      "in-context-learning"
+    ],
+    [
+      "emergent-capabilities",
+      "scale-and-scaling"
+    ],
+    [
+      "encoder-decoder-architecture",
+      "bert"
+    ],
+    [
+      "encoder-decoder-architecture",
+      "gpt-3"
+    ],
+    [
+      "encoder-decoder-architecture",
+      "transformer"
+    ],
+    [
+      "few-shot-learning",
+      "gpt-3"
+    ],
+    [
+      "few-shot-learning",
+      "in-context-learning"
+    ],
+    [
+      "few-shot-learning",
+      "scale-and-scaling"
+    ],
+    [
+      "foundation-models",
+      "alignment"
+    ],
+    [
+      "foundation-models",
+      "bert"
+    ],
+    [
+      "foundation-models",
+      "emergent-capabilities"
+    ],
+    [
+      "foundation-models",
+      "few-shot-learning"
+    ],
+    [
+      "foundation-models",
+      "gpt-3"
+    ],
+    [
+      "foundation-models",
+      "homogenization"
+    ],
+    [
+      "foundation-models",
+      "layer-normalization"
+    ],
+    [
+      "foundation-models",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "foundation-models",
+      "rlhf"
+    ],
+    [
+      "foundation-models",
+      "scale-and-scaling"
+    ],
+    [
+      "foundation-models",
+      "transformer"
+    ],
+    [
+      "gpt-3",
+      "alignment"
+    ],
+    [
+      "gpt-3",
+      "attention-mechanism"
+    ],
+    [
+      "gpt-3",
+      "autoregressive-language-model"
+    ],
+    [
+      "gpt-3",
+      "chinchilla"
+    ],
+    [
+      "gpt-3",
+      "compute-optimal-scaling"
+    ],
+    [
+      "gpt-3",
+      "emergent-capabilities"
+    ],
+    [
+      "gpt-3",
+      "encoder-decoder-architecture"
+    ],
+    [
+      "gpt-3",
+      "few-shot-learning"
+    ],
+    [
+      "gpt-3",
+      "foundation-models"
+    ],
+    [
+      "gpt-3",
+      "in-context-learning"
+    ],
+    [
+      "gpt-3",
+      "layer-normalization"
+    ],
+    [
+      "gpt-3",
+      "masked-language-modeling"
+    ],
+    [
+      "gpt-3",
+      "multi-head-attention"
+    ],
+    [
+      "gpt-3",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "gpt-3",
+      "proximal-policy-optimization"
+    ],
+    [
+      "gpt-3",
+      "rlhf"
+    ],
+    [
+      "gpt-3",
+      "scale-and-scaling"
+    ],
+    [
+      "gpt-3",
+      "self-attention"
+    ],
+    [
+      "gpt-3",
+      "transformer"
+    ],
+    [
+      "homogenization",
+      "alignment"
+    ],
+    [
+      "homogenization",
+      "emergent-capabilities"
+    ],
+    [
+      "homogenization",
+      "foundation-models"
+    ],
+    [
+      "homogenization",
+      "scale-and-scaling"
+    ],
+    [
+      "in-context-learning",
+      "autoregressive-language-model"
+    ],
+    [
+      "in-context-learning",
+      "emergent-capabilities"
+    ],
+    [
+      "in-context-learning",
+      "few-shot-learning"
+    ],
+    [
+      "in-context-learning",
+      "gpt-3"
+    ],
+    [
+      "in-context-learning",
+      "homogenization"
+    ],
+    [
+      "in-context-learning",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "in-context-learning",
+      "scale-and-scaling"
+    ],
+    [
+      "layer-normalization",
+      "encoder-decoder-architecture"
+    ],
+    [
+      "layer-normalization",
+      "transformer"
+    ],
+    [
+      "masked-language-modeling",
+      "autoregressive-language-model"
+    ],
+    [
+      "masked-language-modeling",
+      "bert"
+    ],
+    [
+      "masked-language-modeling",
+      "encoder-decoder-architecture"
+    ],
+    [
+      "masked-language-modeling",
+      "next-sentence-prediction"
+    ],
+    [
+      "masked-language-modeling",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "multi-head-attention",
+      "attention-mechanism"
+    ],
+    [
+      "multi-head-attention",
+      "scaled-dot-product-attention"
+    ],
+    [
+      "multi-head-attention",
+      "self-attention"
+    ],
+    [
+      "multi-head-attention",
+      "transformer"
+    ],
+    [
+      "next-sentence-prediction",
+      "bert"
+    ],
+    [
+      "next-sentence-prediction",
+      "masked-language-modeling"
+    ],
+    [
+      "next-sentence-prediction",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "positional-encoding",
+      "transformer"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "bert"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "chinchilla"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "few-shot-learning"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "foundation-models"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "gpt-3"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "homogenization"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "in-context-learning"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "masked-language-modeling"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "next-sentence-prediction"
+    ],
+    [
+      "pre-training-and-fine-tuning",
+      "rlhf"
+    ],
+    [
+      "proximal-policy-optimization",
+      "alignment"
+    ],
+    [
+      "proximal-policy-optimization",
+      "reward-modeling"
+    ],
+    [
+      "proximal-policy-optimization",
+      "rlhf"
+    ],
+    [
+      "reward-modeling",
+      "alignment"
+    ],
+    [
+      "reward-modeling",
+      "proximal-policy-optimization"
+    ],
+    [
+      "reward-modeling",
+      "rlhf"
+    ],
+    [
+      "rlhf",
+      "alignment"
+    ],
+    [
+      "rlhf",
+      "foundation-models"
+    ],
+    [
+      "rlhf",
+      "gpt-3"
+    ],
+    [
+      "rlhf",
+      "homogenization"
+    ],
+    [
+      "rlhf",
+      "pre-training-and-fine-tuning"
+    ],
+    [
+      "rlhf",
+      "proximal-policy-optimization"
+    ],
+    [
+      "rlhf",
+      "reward-modeling"
+    ],
+    [
+      "rlhf",
+      "scale-and-scaling"
+    ],
+    [
+      "scale-and-scaling",
+      "chinchilla"
+    ],
+    [
+      "scale-and-scaling",
+      "compute-optimal-scaling"
+    ],
+    [
+      "scale-and-scaling",
+      "emergent-capabilities"
+    ],
+    [
+      "scale-and-scaling",
+      "few-shot-learning"
+    ],
+    [
+      "scale-and-scaling",
+      "foundation-models"
+    ],
+    [
+      "scale-and-scaling",
+      "in-context-learning"
+    ],
+    [
+      "scaled-dot-product-attention",
+      "attention-mechanism"
+    ],
+    [
+      "scaled-dot-product-attention",
+      "multi-head-attention"
+    ],
+    [
+      "scaled-dot-product-attention",
+      "self-attention"
+    ],
+    [
+      "scaled-dot-product-attention",
+      "transformer"
+    ],
+    [
+      "self-attention",
+      "attention-mechanism"
+    ],
+    [
+      "self-attention",
+      "autoregressive-language-model"
+    ],
+    [
+      "self-attention",
+      "bert"
+    ],
+    [
+      "self-attention",
+      "gpt-3"
+    ],
+    [
+      "self-attention",
+      "masked-language-modeling"
+    ],
+    [
+      "self-attention",
+      "multi-head-attention"
+    ],
+    [
+      "self-attention",
+      "positional-encoding"
+    ],
+    [
+      "self-attention",
+      "scaled-dot-product-attention"
+    ],
+    [
+      "self-attention",
+      "transformer"
+    ],
+    [
+      "transformer",
+      "attention-mechanism"
+    ],
+    [
+      "transformer",
+      "autoregressive-language-model"
+    ],
+    [
+      "transformer",
+      "bert"
+    ],
+    [
+      "transformer",
+      "encoder-decoder-architecture"
+    ],
+    [
+      "transformer",
+      "foundation-models"
+    ],
+    [
+      "transformer",
+      "layer-normalization"
+    ],
+    [
+      "transformer",
+      "multi-head-attention"
+    ],
+    [
+      "transformer",
+      "positional-encoding"
+    ],
+    [
+      "transformer",
+      "scaled-dot-product-attention"
+    ],
+    [
+      "transformer",
+      "self-attention"
+    ]
+  ]
+}

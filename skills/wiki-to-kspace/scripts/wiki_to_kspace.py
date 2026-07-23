@@ -1,0 +1,858 @@
+#!/usr/bin/env python3
+"""
+wiki_to_kspace — translate an LLM wiki (folder of markdown entity pages) into a
+typed property graph traversable by graph algorithms.
+
+Ontology (see references/spec.md):
+  nodes: concept (entity page), source (doc/citation in ## Sources)
+  edges: mentions (body links), related (## Related), contradicts (## Contradictions),
+         cites (concept -> source)
+
+Canonical output: graph.json (node-link, NetworkX-compatible).
+Optional: --emit sqlite,graphml  and  --kspace (domain.json for the KST toolkit).
+
+Stdlib only. Usage:
+  python3 wiki_to_kspace.py <wiki_dir> [-o graph.json] [--emit sqlite,graphml]
+                            [--stubs] [--dag-edges mentions] [--kspace] [--exclude index,log]
+"""
+import argparse, glob, json, os, re, sqlite3, sys, datetime, xml.sax.saxutils as sx
+
+LINK_RE = re.compile(r"\[\[([^\]|]+)(?:\|([^\]]+))?\]\]")
+CODE_RE = re.compile(r"`[^`]*`")
+H1_RE   = re.compile(r"^#\s+(.*)$")
+H2_RE   = re.compile(r"^##\s+(.*)$")
+
+DEFAULT_MAP = [  # (predicate on lowercased section name, edge type)
+    (lambda s: "contradict" in s or "tension" in s, "contradicts"),
+    (lambda s: s.startswith("related"),             "related"),
+    (lambda s: s.startswith("source"),              "cites"),
+    (lambda s: True,                                "mentions"),  # summary/explanation/other
+]
+SYMMETRIC = {"related", "contradicts"}
+# index.md / log.md are navigational hubs, not concepts. Their links get their own
+# edge types so they don't pollute concept-level semantics (e.g. a "tensions" section
+# heading in index.md must NOT be read as a `contradicts` edge).
+META_EDGE = {"index": "indexes", "log": "records"}
+CONCEPT_EDGE_TYPES = {"mentions", "related", "contradicts", "cites"}
+
+
+def node_type_for(stem):
+    s = stem.lower()
+    if s == "index":
+        return "index"
+    if s == "log":
+        return "log"
+    return "concept"
+
+
+def slug(text):
+    s = re.sub(r"[^a-z0-9]+", "-", text.strip().lower()).strip("-")
+    return s or "untitled"
+
+
+def strip_links(text):
+    """Replace [[Target|alias]] / [[Target]] with plain text. The relationship is
+    encoded as a structured edge instead of being reproduced as markup in the prose."""
+    return LINK_RE.sub(lambda m: (m.group(2) or m.group(1)).strip(), text)
+
+
+# knowledge-node taxonomy (the `kind` property). Structural `type` stays concept/
+# source/index/log; `kind` classifies the knowledge a concept node holds.
+KINDS = {"concept", "fact", "schema", "procedure"}
+
+
+def edge_type_for(section, mapping):
+    s = section.strip().lower()
+    for pred, et in mapping:
+        if pred(s):
+            return et
+    return "mentions"
+
+
+def parse_page(path):
+    """Return (title, {section_name: [lines]}, meta). meta may carry a `kind`
+    read from optional YAML-ish frontmatter (--- ... --- with a `kind:` line)."""
+    title, sections, cur, meta = None, {}, None, {}
+    lines = open(path, encoding="utf-8").read().split("\n")
+    i = 0
+    if lines and lines[0].strip() == "---":            # optional frontmatter
+        j = 1
+        while j < len(lines) and lines[j].strip() != "---":
+            m = re.match(r"\s*kind\s*:\s*(\w+)", lines[j])
+            if m:
+                meta["kind"] = m.group(1).strip().lower()
+            j += 1
+        i = j + 1
+    for raw in lines[i:]:
+        line = raw.rstrip("\n")
+        m1 = H1_RE.match(line)
+        m2 = H2_RE.match(line)
+        if m1 and title is None:
+            title = m1.group(1).strip()
+        elif m2:
+            cur = m2.group(1).strip()
+            sections.setdefault(cur, [])
+        elif cur is not None:
+            sections[cur].append(line)
+    if title is None:
+        title = os.path.splitext(os.path.basename(path))[0]
+    return title, sections, meta
+
+
+def links_in(text):
+    """Yield (target, count) from text, ignoring inline-code spans."""
+    clean = CODE_RE.sub("", text)
+    out = {}
+    for t, _alias in LINK_RE.findall(clean):
+        t = t.strip()
+        if t and t.lower() != "wiki-links":  # illustrative token
+            out[t] = out.get(t, 0) + 1
+    return out
+
+
+def build_graph(wiki_dir, exclude, mapping, stubs):
+    files = sorted(glob.glob(os.path.join(wiki_dir, "*.md")))
+    files = [f for f in files
+             if os.path.splitext(os.path.basename(f))[0].lower() not in exclude]
+
+    # pass 1: nodes + alias table
+    pages, alias = {}, {}
+    for f in files:
+        title, sections, meta = parse_page(f)
+        stem = os.path.splitext(os.path.basename(f))[0]
+        ntype = node_type_for(stem)
+        cid = slug(title)
+        kind = meta.get("kind") if meta.get("kind") in KINDS else "concept"
+        pages[cid] = {"file": os.path.basename(f), "title": title,
+                      "sections": sections, "ntype": ntype, "kind": kind}
+        alias[title.lower()] = cid
+        alias[stem.lower()] = cid
+
+    nodes, edges = {}, []
+    warnings = {"dangling": [], "orphans": [], "self_loops": [], "dup_ids": []}
+    seen_ids = {}
+    src_nodes = {}
+
+    def add_edge(s, t, et, via, w=1):
+        directed = et not in SYMMETRIC
+        for e in edges:
+            if e["source"] == s and e["target"] == t and e["type"] == et:
+                e["weight"] += w
+                return
+        edges.append({"source": s, "target": t, "type": et,
+                      "via": via, "directed": directed, "weight": w})
+
+    for cid, p in pages.items():
+        if cid in seen_ids:
+            warnings["dup_ids"].append([cid, p["file"], seen_ids[cid]])
+        seen_ids[cid] = p["file"]
+
+        # index / log: navigational hub nodes. Every link becomes an `indexes` /
+        # `records` edge, regardless of which section it sits in.
+        if p["ntype"] in META_EDGE:
+            met = META_EDGE[p["ntype"]]
+            nodes[cid] = {"id": cid, "type": p["ntype"], "kind": None, "title": p["title"],
+                          "summary": "", "explanation": "", "sources": [],
+                          "file": p["file"], "in_degree": 0, "out_degree": 0, "edges": []}
+            for sec, lines in p["sections"].items():
+                for tgt, cnt in links_in("\n".join(lines)).items():
+                    tid = alias.get(tgt.lower())
+                    if tid is None:
+                        warnings["dangling"].append([p["title"], tgt])
+                        continue
+                    if tid != cid:
+                        add_edge(cid, tid, met, sec, cnt)
+            continue
+
+        # link markup is stripped to plain text — the relationship is encoded as an
+        # edge (below), not reproduced as [[markup]] in the prose.
+        summary = strip_links("\n".join(p["sections"].get("Summary", [])).strip())
+        expl = strip_links("\n".join(p["sections"].get("Explanation", [])).strip())
+        source_strings = []
+        nodes[cid] = {"id": cid, "type": "concept", "kind": p["kind"], "title": p["title"],
+                      "summary": summary, "explanation": expl,
+                      "sources": source_strings, "file": p["file"],
+                      "in_degree": 0, "out_degree": 0, "edges": []}
+
+        for sec, lines in p["sections"].items():
+            et = edge_type_for(sec, mapping)
+            text = "\n".join(lines)
+            if et == "cites":
+                for ln in lines:
+                    b = ln.strip().lstrip("-*").strip()
+                    if not b:
+                        continue
+                    source_strings.append(b)
+                    sid = "src:" + slug(re.split(r"[ (]", b)[0][:60])
+                    if sid not in src_nodes:
+                        path = None
+                        mpath = re.search(r"(raw/[^\s)]+)", b)
+                        if mpath:
+                            path = mpath.group(1)
+                        src_nodes[sid] = {"id": sid, "type": "source", "kind": None,
+                                          "ref": b, "path": path, "title": b,
+                                          "in_degree": 0, "out_degree": 0, "edges": []}
+                    add_edge(cid, sid, "cites", sec)
+                continue
+            for tgt, cnt in links_in(text).items():
+                tid = alias.get(tgt.lower())
+                if tid is None:
+                    warnings["dangling"].append([p["title"], tgt])
+                    if stubs:
+                        tid = slug(tgt)
+                        nodes.setdefault(tid, {"id": tid, "type": "missing",
+                                               "title": tgt, "summary": "", "explanation": "",
+                                               "sources": [], "file": None,
+                                               "in_degree": 0, "out_degree": 0})
+                    else:
+                        continue
+                if tid == cid:
+                    warnings["self_loops"].append([cid, sec])
+                    continue
+                add_edge(cid, tid, et, sec, cnt)
+
+    nodes.update(src_nodes)
+
+    # degree_by_type: full breakdown; in_degree/out_degree are the SEMANTIC totals
+    # (hub edges indexes/records excluded, so the index doesn't inflate every node).
+    HUB = {"indexes", "records"}
+    for n in nodes.values():
+        n["degree_by_type"] = {"in": {}, "out": {}}
+    for e in edges:
+        t = e["type"]
+        s, d = nodes.get(e["source"]), nodes.get(e["target"])
+        if s: s["degree_by_type"]["out"][t] = s["degree_by_type"]["out"].get(t, 0) + 1
+        if d: d["degree_by_type"]["in"][t] = d["degree_by_type"]["in"].get(t, 0) + 1
+    for n in nodes.values():
+        n["out_degree"] = sum(v for t, v in n["degree_by_type"]["out"].items() if t not in HUB)
+        n["in_degree"]  = sum(v for t, v in n["degree_by_type"]["in"].items()  if t not in HUB)
+    # orphan = a concept with no *concept-level* edges. Hub edges from index/log
+    # (`indexes`/`records`) don't count, or nothing would ever be an orphan.
+    cdeg = {nid: 0 for nid in nodes}
+    for e in edges:
+        if e["type"] in CONCEPT_EDGE_TYPES:
+            if e["source"] in cdeg:
+                cdeg[e["source"]] += 1
+            if e["target"] in cdeg:
+                cdeg[e["target"]] += 1
+    for nid, n in nodes.items():
+        if n["type"] == "concept" and cdeg[nid] == 0:
+            warnings["orphans"].append(nid)
+
+    # extra per-node metadata
+    for n in nodes.values():
+        if n["type"] == "concept":
+            n["n_sources"] = len(n.get("sources", []))
+            n["word_count"] = len((n.get("summary", "") + " " + n.get("explanation", "")).split())
+            stem = os.path.splitext(n["file"])[0] if n.get("file") else n["title"]
+            n["aliases"] = sorted({n["title"], stem})
+
+    # Attach each node's outgoing edges directly ON the node (adjacency list).
+    # This is the canonical carrier: edges live in the graph as structured typed
+    # relations, not as [[markup]] reproduced inside the prose.
+    for e in edges:
+        if e["source"] in nodes:
+            nodes[e["source"]]["edges"].append(
+                {"target": e["target"], "type": e["type"], "via": e["via"], "weight": e["weight"]})
+
+    return nodes, edges, warnings
+
+
+def dag_report(nodes, edges, dag_edges):
+    """Tarjan SCC over the chosen edge subset; report acyclicity."""
+    adj = {n: [] for n in nodes}
+    for e in edges:
+        if e["type"] in dag_edges and e["source"] in adj:
+            adj[e["source"]].append(e["target"])
+    index, stack, on, idx, low, sccs = {}, [], set(), [0], {}, []
+    def strong(v):
+        idx[v] = low[v] = index[v] = index.get(v, len(index))
+        index[v] = len(index) if v not in index else index[v]
+    # iterative Tarjan
+    counter = [0]; idxs = {}; lowl = {}; onstack = set(); st = []; out = []
+    def dfs(v):
+        idxs[v] = lowl[v] = counter[0]; counter[0]+=1; st.append(v); onstack.add(v)
+        for w in adj.get(v, []):
+            if w not in idxs:
+                dfs(w); lowl[v]=min(lowl[v],lowl[w])
+            elif w in onstack:
+                lowl[v]=min(lowl[v],idxs[w])
+        if lowl[v]==idxs[v]:
+            comp=[]
+            while True:
+                w=st.pop(); onstack.discard(w); comp.append(w)
+                if w==v: break
+            out.append(comp)
+    sys.setrecursionlimit(10000)
+    for v in list(adj):
+        if v not in idxs:
+            dfs(v)
+    cycles=[c for c in out if len(c)>1]
+    return {"edge_types": sorted(dag_edges), "acyclic": not cycles,
+            "cyclic_components": cycles}
+
+
+def write_graphml(nodes, edges, path):
+    def esc(x): return sx.escape(str(x)) if x is not None else ""
+    keys = [("d_type","type","node","string"),("d_kind","kind","node","string"),
+            ("d_title","title","node","string"),
+            ("e_type","type","edge","string"),("e_via","via","edge","string"),
+            ("e_w","weight","edge","int")]
+    with open(path,"w",encoding="utf-8") as fh:
+        fh.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        fh.write('<graphml xmlns="http://graphml.graphdrawing.org/xmlns">\n')
+        for kid,name,dom,typ in keys:
+            fh.write(f'<key id="{kid}" for="{dom}" attr.name="{name}" attr.type="{typ}"/>\n')
+        fh.write('<graph edgedefault="directed">\n')
+        for nid,n in nodes.items():
+            fh.write(f'<node id="{esc(nid)}"><data key="d_type">{esc(n["type"])}</data>'
+                     f'<data key="d_kind">{esc(n.get("kind"))}</data>'
+                     f'<data key="d_title">{esc(n.get("title"))}</data></node>\n')
+        for i,e in enumerate(edges):
+            fh.write(f'<edge id="e{i}" source="{esc(e["source"])}" target="{esc(e["target"])}">'
+                     f'<data key="e_type">{esc(e["type"])}</data>'
+                     f'<data key="e_via">{esc(e["via"])}</data>'
+                     f'<data key="e_w">{e["weight"]}</data></edge>\n')
+        fh.write('</graph>\n</graphml>\n')
+
+
+def write_sqlite(nodes, edges, path):
+    # Some mounted/network filesystems don't support SQLite's locking + rollback
+    # journal (raising "disk I/O error"). Build in a local temp dir, then copy the
+    # finished single-file DB to the destination (a plain file copy always works).
+    import tempfile, shutil
+    tmp = os.path.join(tempfile.mkdtemp(), "graph.db")
+    con=sqlite3.connect(tmp); c=con.cursor()
+    c.execute("""CREATE TABLE nodes(id TEXT PRIMARY KEY,type TEXT,kind TEXT,title TEXT,summary TEXT,
+                 explanation TEXT,sources TEXT,file TEXT,word_count INT,n_sources INT,
+                 in_degree INT,out_degree INT)""")
+    c.execute("""CREATE TABLE edges(src TEXT,dst TEXT,type TEXT,via TEXT,directed INT,weight INT)""")
+    for n in nodes.values():
+        c.execute("INSERT INTO nodes VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                  (n["id"],n["type"],n.get("kind"),n.get("title"),n.get("summary",""),
+                   n.get("explanation",""),json.dumps(n.get("sources",[])),n.get("file"),
+                   n.get("word_count",0),n.get("n_sources",0),
+                   n.get("in_degree",0),n.get("out_degree",0)))
+    for e in edges:
+        c.execute("INSERT INTO edges VALUES(?,?,?,?,?,?)",
+                  (e["source"],e["target"],e["type"],e["via"],int(e["directed"]),e["weight"]))
+    con.commit(); con.close()
+    shutil.copyfile(tmp, path)
+
+
+def write_kspace(nodes, edges, path, dag_edges):
+    items=[{"id":n["id"],"name":n["title"],"description":n.get("summary","")}
+           for n in nodes.values() if n["type"]=="concept"]
+    prereqs=[[e["target"],e["source"]] for e in edges if e["type"] in dag_edges]
+    doc={"course":"(derived from wiki)","version":"0.1-candidate",
+         "note":"prerequisites are HEURISTIC candidates from body references; curate before use.",
+         "items":items,"prerequisites":sorted(prereqs)}
+    open(path,"w",encoding="utf-8").write(json.dumps(doc,indent=2,ensure_ascii=False))
+
+
+def cmd_build(args):
+    exclude={x.strip().lower() for x in args.exclude.split(",") if x.strip()}
+    mapping=DEFAULT_MAP
+    if args.map:
+        raw=json.load(open(args.map))
+        mapping=[( (lambda kw: (lambda s: kw in s))(k), v) for k,v in raw.items()]
+        mapping.append((lambda s: True,"mentions"))
+
+    nodes,edges,warnings=build_graph(args.wiki_dir,exclude,mapping,args.stubs)
+
+    ecount={}
+    for e in edges: ecount[e["type"]]=ecount.get(e["type"],0)+1
+    ncount={}
+    for n in nodes.values(): ncount[n["type"]]=ncount.get(n["type"],0)+1
+    dag=dag_report(nodes,edges,{x.strip() for x in args.dag_edges.split(",") if x.strip()})
+
+    # multigraph=True: two nodes may be joined by several *typed* edges
+    # (e.g. both `related` and `mentions`); a simple DiGraph would collapse them.
+    graph={"directed":True,"multigraph":True,
+           "meta":{"generator":"wiki_to_kspace/0.2",
+                   "generated":datetime.datetime.now().isoformat(timespec="seconds"),
+                   "source_dir":os.path.abspath(args.wiki_dir),
+                   "counts":{**ncount,"edges":ecount},
+                   "dag_check":dag,"warnings":warnings},
+           "nodes":list(nodes.values()),
+           "links":edges}
+    open(args.out,"w",encoding="utf-8").write(json.dumps(graph,indent=2,ensure_ascii=False))
+
+    base=os.path.splitext(args.out)[0]
+    emits={x.strip().lower() for x in args.emit.split(",") if x.strip()}
+    if "sqlite" in emits: write_sqlite(nodes,edges,base+".db")
+    if "graphml" in emits: write_graphml(nodes,edges,base+".graphml")
+    if args.kspace: write_kspace(nodes,edges,base.replace("graph","domain")+".json",
+                                 {x.strip() for x in args.dag_edges.split(",")})
+
+    print(f"nodes: {ncount}  edges: {ecount}")
+    print(f"dangling links: {len(warnings['dangling'])}  orphans: {len(warnings['orphans'])}  "
+          f"self-loops: {len(warnings['self_loops'])}")
+    print(f"DAG check over {dag['edge_types']}: "
+          f"{'acyclic' if dag['acyclic'] else 'CYCLES: '+str(dag['cyclic_components'])}")
+    print(f"wrote {args.out}" + (f" (+ {', '.join(sorted(emits))})" if emits else ""))
+
+
+# ---------------------------------------------------------------------------
+# analysis (stdlib only — no numpy/scipy/networkx needed)
+# ---------------------------------------------------------------------------
+CONCEPT_EDGE = {"mentions", "related", "contradicts", "cites"}
+
+
+def load_graph(path):
+    g = json.load(open(path, encoding="utf-8"))
+    nodes = {n["id"]: n for n in g["nodes"]}
+    return g, nodes, g.get("links", [])
+
+
+def _adj(node_ids, edges, types, undirected=False):
+    a = {n: set() for n in node_ids}
+    for e in edges:
+        if e["type"] in types and e["source"] in a and e["target"] in a:
+            a[e["source"]].add(e["target"])
+            if undirected:
+                a[e["target"]].add(e["source"])
+    return a
+
+
+def pagerank(node_ids, adj, d=0.85, it=200, tol=1e-10):
+    N = len(node_ids)
+    if not N:
+        return {}
+    pr = {n: 1.0 / N for n in node_ids}
+    out = {n: len(adj.get(n, ())) for n in node_ids}
+    for _ in range(it):
+        dangling = d * sum(pr[n] for n in node_ids if out[n] == 0) / N
+        new = {n: (1 - d) / N + dangling for n in node_ids}
+        for n in node_ids:
+            if out[n]:
+                share = d * pr[n] / out[n]
+                for m in adj[n]:
+                    new[m] += share
+        if sum(abs(new[n] - pr[n]) for n in node_ids) < tol:
+            pr = new
+            break
+        pr = new
+    return pr
+
+
+def weak_components(node_ids, adjU):
+    seen, comps = set(), []
+    for s in node_ids:
+        if s in seen:
+            continue
+        stack, comp = [s], []
+        while stack:
+            v = stack.pop()
+            if v in seen:
+                continue
+            seen.add(v); comp.append(v)
+            stack.extend(adjU.get(v, ()))
+        comps.append(comp)
+    return sorted(comps, key=len, reverse=True)
+
+
+def label_propagation(node_ids, adjU, rounds=50):
+    import random
+    random.seed(42)
+    label = {n: n for n in node_ids}
+    order = list(node_ids)
+    for _ in range(rounds):
+        random.shuffle(order); changed = False
+        for n in order:
+            nb = adjU.get(n, ())
+            if not nb:
+                continue
+            cnt = {}
+            for m in nb:
+                cnt[label[m]] = cnt.get(label[m], 0) + 1
+            best = max(cnt.values())
+            winner = sorted(l for l, c in cnt.items() if c == best)[0]
+            if label[n] != winner:
+                label[n] = winner; changed = True
+        if not changed:
+            break
+    comms = {}
+    for n, l in label.items():
+        comms.setdefault(l, []).append(n)
+    return sorted(comms.values(), key=len, reverse=True)
+
+
+def bfs_path(adjU, s, t):
+    from collections import deque
+    if s not in adjU or t not in adjU:
+        return None
+    prev = {s: None}; q = deque([s])
+    while q:
+        v = q.popleft()
+        if v == t:
+            break
+        for m in adjU.get(v, ()):
+            if m not in prev:
+                prev[m] = v; q.append(m)
+    if t not in prev:
+        return None
+    path, v = [], t
+    while v is not None:
+        path.append(v); v = prev[v]
+    return list(reversed(path))
+
+
+def bfs_order(adj, start, allowed=None):
+    """Breadth-first traversal from `start`; returns [(node, depth), …] in visit order.
+    `allowed` (a set) restricts which nodes may be visited (node-type/kind filtering)."""
+    from collections import deque
+    seen = {start}; order = []; q = deque([(start, 0)])
+    while q:
+        v, d = q.popleft(); order.append((v, d))
+        for m in sorted(adj.get(v, ())):
+            if m not in seen and (allowed is None or m in allowed):
+                seen.add(m); q.append((m, d + 1))
+    return order
+
+
+def dfs_order(adj, start, allowed=None):
+    """Depth-first traversal from `start`; returns [(node, depth), …] in visit order.
+    `allowed` (a set) restricts which nodes may be visited."""
+    seen, order = set(), []
+    def rec(v, d):
+        if v in seen:
+            return
+        seen.add(v); order.append((v, d))
+        for m in sorted(adj.get(v, ())):
+            if allowed is None or m in allowed:
+                rec(m, d + 1)
+    rec(start, 0)
+    return order
+
+
+def cmd_validate(args):
+    g, nodes, edges = load_graph(args.graph)
+    ids = set(nodes)
+    dangling = [[e["source"], e["target"]] for e in edges if e["target"] not in ids or e["source"] not in ids]
+    selfl = [[e["source"], e["type"]] for e in edges if e["source"] == e["target"]]
+    cdeg = {n: 0 for n in nodes}
+    for e in edges:
+        if e["type"] in CONCEPT_EDGE:
+            if e["source"] in cdeg: cdeg[e["source"]] += 1
+            if e["target"] in cdeg: cdeg[e["target"]] += 1
+    orphans = [n for n, nd in nodes.items() if nd.get("type") == "concept" and cdeg[n] == 0]
+    dedges = {x.strip() for x in args.dag_edges.split(",") if x.strip()}
+    dag = dag_report(nodes, edges, dedges)
+    # Only structural defects fail validation. Cycles over `mentions`/`related` are
+    # EXPECTED (body cross-references aren't a DAG), so the DAG check is informational.
+    problems = len(dangling) + len(orphans) + len(selfl)
+    print(f"VALIDATE {args.graph}")
+    print(f"  nodes: {len(nodes)}  edges: {len(edges)}")
+    print(f"  dangling links : {len(dangling)} {dangling[:5]}")
+    print(f"  orphan concepts: {len(orphans)} {orphans[:5]}")
+    print(f"  self-loops     : {len(selfl)} {selfl[:5]}")
+    print(f"  [info] DAG over {sorted(dedges)}: "
+          f"{'acyclic' if dag['acyclic'] else 'has cycles (expected for cross-references)'}")
+    print(f"  RESULT: {'PASS' if problems == 0 else str(problems)+' issue group(s)'}")
+    sys.exit(0 if problems == 0 else 1)
+
+
+def cmd_analyze(args):
+    from collections import Counter
+    g, nodes, edges = load_graph(args.graph)
+    cids = [n for n, nd in nodes.items() if nd.get("type") == "concept"]
+    types = {x.strip() for x in args.edges.split(",") if x.strip()}
+    adj = _adj(cids, edges, types)
+    adjU = _adj(cids, edges, types, undirected=True)
+    N = args.top
+
+    print(f"ANALYZE {args.graph}")
+    print(f"  concepts: {len(cids)}   edges considered {sorted(types)}: "
+          f"{sum(len(v) for v in adj.values())}")
+    print(f"  kind distribution : {dict(Counter(nodes[i].get('kind') for i in cids))}")
+    print(f"  edge-type totals  : {dict(Counter(e['type'] for e in edges))}")
+
+    pr = pagerank(cids, adj)
+    print(f"\n  Top {N} by PageRank (influence hubs):")
+    for n in sorted(cids, key=lambda x: pr[x], reverse=True)[:N]:
+        print(f"    {pr[n]:.4f}  {nodes[n]['title']}  [{nodes[n].get('kind')}]")
+
+    indeg = Counter();
+    for e in edges:
+        if e["type"] in types and e["target"] in nodes:
+            indeg[e["target"]] += 1
+    print(f"\n  Top {N} most depended-upon (in-degree):")
+    for n, c in indeg.most_common(N):
+        print(f"    {c:>3}  {nodes[n]['title']}")
+
+    con = Counter()
+    for e in edges:
+        if e["type"] == "contradicts":
+            for x in (e["source"], e["target"]):
+                if x in nodes: con[x] += 1
+    if con:
+        print(f"\n  Most contested (contradicts degree):")
+        for n, c in con.most_common(N):
+            print(f"    {c:>3}  {nodes[n]['title']}")
+
+    comps = weak_components(cids, adjU)
+    print(f"\n  Weakly-connected components: {len(comps)} (largest {len(comps[0]) if comps else 0})")
+    comms = label_propagation(cids, adjU)
+    print(f"  Communities (label propagation): {len(comms)}")
+    for i, c in enumerate(comms[:8], 1):
+        names = ", ".join(nodes[x]["title"] for x in sorted(c)[:6])
+        print(f"    C{i} ({len(c)}): {names}{' …' if len(c) > 6 else ''}")
+
+    if args.path:
+        s, t = slug(args.path[0]), slug(args.path[1])
+        p = bfs_path(adjU, s, t)
+        pretty = " → ".join(nodes[x]["title"] for x in p) if p else "no path"
+        print(f"\n  Shortest path {args.path[0]} — {args.path[1]}: {pretty}")
+
+
+ALL_EDGE_TYPES = ["mentions", "related", "contradicts", "cites", "indexes", "records"]
+
+
+def _csv(s):
+    return {x.strip() for x in s.split(",") if x.strip()} if s else None
+
+
+def cmd_query(args):
+    """Canned graph questions — callers never write raw SQL or graph code.
+
+    Filtering (any combination):
+      edge types:  --edges a,b (only these)   --ignore-edges x,y (all but these)
+      node kinds:  --kind a,b                  --ignore-kind x,y
+      node types:  --node-type a,b             --ignore-node-type x,y
+    """
+    g, nodes, edges = load_graph(args.graph)
+    def title(i): return nodes[i]["title"] if i in nodes else i
+    def resolve(name):
+        s = slug(name)
+        if s in nodes: return s
+        for n in nodes.values():
+            if n["title"].lower() == name.lower(): return n["id"]
+        return None
+
+    # ---- resolve include/exclude filters ----
+    inc_e, exc_e = _csv(args.edges), _csv(args.ignore_edges) or set()
+    inc_k, exc_k = _csv(args.kind), _csv(args.ignore_kind) or set()
+    inc_t, exc_t = _csv(args.node_type), _csv(args.ignore_node_type) or set()
+
+    def edge_types(default):
+        base = inc_e if inc_e is not None else set(default)
+        return base - exc_e
+    def node_ok(i):
+        nd = nodes.get(i, {})
+        k, t = nd.get("kind"), nd.get("type")
+        if inc_k is not None and k not in inc_k: return False
+        if k in exc_k: return False
+        if inc_t is not None and t not in inc_t: return False
+        if t in exc_t: return False
+        return True
+
+    q = args.question
+
+    if q == "list":
+        for n in sorted((x for x in nodes.values() if node_ok(x["id"])), key=lambda x: x["id"]):
+            print(f'{n["id"]:34} {str(n.get("kind")):9} {n["type"]:8} in={n.get("in_degree",0):<3} out={n.get("out_degree",0)}')
+        return
+    if q == "contradicts":
+        seen = set()
+        for e in edges:
+            if e["type"] == "contradicts" and node_ok(e["source"]) and node_ok(e["target"]):
+                k = tuple(sorted((e["source"], e["target"])))
+                if k not in seen:
+                    seen.add(k); print(f'{title(k[0])}  <->  {title(k[1])}')
+        return
+    if q == "kind":
+        want = args.terms[0].lower() if args.terms else None
+        for n in nodes.values():
+            if str(n.get("kind")).lower() == want:
+                print(f'{n["id"]:34} {n["title"]}')
+        return
+    if q == "edgetype":
+        want = args.terms[0] if args.terms else None
+        for e in edges:
+            if e["type"] == want and node_ok(e["source"]) and node_ok(e["target"]):
+                w = f' x{e["weight"]}' if e.get("weight", 1) > 1 else ""
+                print(f'{title(e["source"])}  -{want}->  {title(e["target"])}{w}')
+        return
+    if q == "path":
+        if len(args.terms) < 2:
+            print("usage: query <graph> path A B"); sys.exit(1)
+        types = edge_types(["mentions", "related", "contradicts", "cites"])
+        allowed = {i for i in nodes if node_ok(i)}
+        sub = [e for e in edges if e["source"] in allowed and e["target"] in allowed]
+        adjU = _adj(list(nodes), sub, types, undirected=True)
+        a, b = resolve(args.terms[0]), resolve(args.terms[1])
+        p = bfs_path(adjU, a, b) if a and b else None
+        print(" → ".join(title(x) for x in p) if p else "no path (with current filters)")
+        return
+
+    # node-scoped questions
+    if not args.terms:
+        print(f"'{q}' needs a node name"); sys.exit(1)
+    nid = resolve(args.terms[0])
+    if not nid:
+        print(f"no node matching '{args.terms[0]}'"); sys.exit(1)
+
+    if q in ("bfs", "dfs"):
+        types = edge_types(["mentions", "related", "contradicts", "cites"])
+        allowed = {i for i in nodes if node_ok(i)} | {nid}
+        adj = _adj(list(nodes), edges, types, undirected=args.undirected)
+        order = (bfs_order if q == "bfs" else dfs_order)(adj, nid, allowed)
+        print(f"{q.upper()} from {title(nid)}  (edges={sorted(types)}, "
+              f"{'undirected' if args.undirected else 'directed'}, {len(order)} nodes)")
+        for v, d in order:
+            print("  " * d + f'{title(v)}  [{nodes[v].get("kind") or nodes[v]["type"]}]')
+        return
+    if q == "node":
+        n = nodes[nid]; keep = edge_types(ALL_EDGE_TYPES)
+        print(f'{n["title"]}  [{n.get("kind") or n["type"]}]  in={n.get("in_degree",0)} out={n.get("out_degree",0)}'
+              + (f'  {n.get("n_sources")} source(s)' if n.get("n_sources") is not None else ''))
+        if n.get("summary"): print(n["summary"])
+        print("outgoing:")
+        for e in n.get("edges", []):
+            if e["type"] in keep and node_ok(e["target"]):
+                print(f'  -{e["type"]}->  {title(e["target"])}')
+        return
+    if q == "neighbors":
+        keep = edge_types(ALL_EDGE_TYPES)
+        for e in edges:
+            if e["source"] == nid and e["type"] in keep and node_ok(e["target"]):
+                print(f'  -{e["type"]}->  {title(e["target"])}')
+        return
+    if q == "backlinks":
+        keep = edge_types(ALL_EDGE_TYPES)
+        for e in edges:
+            if e["target"] == nid and e["type"] in keep and node_ok(e["source"]):
+                print(f'  {title(e["source"])}  -{e["type"]}->')
+        return
+
+
+def find_page(wiki_dir, name):
+    target = slug(name)
+    for f in glob.glob(os.path.join(wiki_dir, "*.md")):
+        stem = os.path.splitext(os.path.basename(f))[0]
+        title, _s, _m = parse_page(f)
+        if slug(title) == target or slug(stem) == target:
+            return f
+    return None
+
+
+SECTION_FOR = {"related": "Related", "contradicts": "Contradictions / tensions", "mentions": "Explanation"}
+
+
+def cmd_update(args):
+    """Edit the SOURCE wiki markdown (single source of truth); re-run build to regenerate."""
+    wd, act = args.wiki_dir, args.action
+    if act == "add-node":
+        if not args.title:
+            print("add-node needs --title"); sys.exit(1)
+        kind = (args.kind or "concept").lower()
+        path = os.path.join(wd, args.title + ".md")
+        if os.path.exists(path):
+            print("already exists:", path); sys.exit(1)
+        open(path, "w", encoding="utf-8").write(
+            f"---\nkind: {kind}\n---\n\n# {args.title}\n\n## Summary\n{args.summary or ''}\n\n"
+            f"## Explanation\n{args.explanation or ''}\n\n## Related\n\n"
+            f"## Contradictions / tensions\n\n## Sources\n")
+        print("created", path)
+
+    elif act == "add-edge":
+        if args.type not in SECTION_FOR:
+            print("--type must be one of: related, contradicts, mentions"); sys.exit(1)
+        src = find_page(wd, args.frm or "")
+        if not src:
+            print("no source page for --from", args.frm); sys.exit(1)
+        tgt = find_page(wd, args.to or "")
+        tgt_title = parse_page(tgt)[0] if tgt else args.to
+        header = "## " + SECTION_FOR[args.type]
+        lines = open(src, encoding="utf-8").read().split("\n")
+        link = f"[[{tgt_title}]]"
+        idx = next((k for k, l in enumerate(lines) if l.strip() == header), -1)
+        if idx == -1:
+            lines += ["", header, link]
+        else:
+            lines.insert(idx + 1, link)
+        open(src, "w", encoding="utf-8").write("\n".join(lines))
+        warn = "" if tgt else f"  (warning: no page named '{args.to}' yet — link will be dangling)"
+        print(f'added {link} to "{SECTION_FOR[args.type]}" of {os.path.basename(src)}{warn}')
+
+    elif act == "set-kind":
+        p = find_page(wd, args.node or "")
+        if not p:
+            print("no page for --node", args.node); sys.exit(1)
+        txt = open(p, encoding="utf-8").read()
+        if txt.startswith("---"):
+            if re.search(r"(?m)^kind\s*:", txt):
+                txt = re.sub(r"(?m)^kind\s*:.*$", f"kind: {args.kind}", txt, count=1)
+            else:
+                txt = txt.replace("---", f"---\nkind: {args.kind}", 1)
+        else:
+            txt = f"---\nkind: {args.kind}\n---\n\n" + txt
+        open(p, "w", encoding="utf-8").write(txt)
+        print(f"set kind={args.kind} on {os.path.basename(p)}")
+
+    print("→ re-run `build` to regenerate the graph.")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="LLM wiki -> knowledge-space graph toolkit.")
+    sub = ap.add_subparsers(dest="cmd")
+
+    b = sub.add_parser("build", help="parse a wiki folder into graph.json")
+    b.add_argument("wiki_dir")
+    b.add_argument("-o", "--out", default="graph.json")
+    b.add_argument("--emit", default="", help="comma list: sqlite,graphml")
+    b.add_argument("--exclude", default="readme",
+                   help="filename stems to skip (index/log are INCLUDED as hub nodes by default)")
+    b.add_argument("--stubs", action="store_true", help="create nodes for dangling links")
+    b.add_argument("--dag-edges", default="mentions", help="edge types to check for acyclicity")
+    b.add_argument("--kspace", action="store_true", help="also emit domain.json (KST candidate)")
+    b.add_argument("--map", default=None, help="JSON file overriding section->edge map")
+    b.set_defaults(func=cmd_build)
+
+    v = sub.add_parser("validate", help="check an existing graph.json (exit 1 on issues)")
+    v.add_argument("graph")
+    v.add_argument("--dag-edges", default="mentions")
+    v.set_defaults(func=cmd_validate)
+
+    a = sub.add_parser("analyze", help="graph metrics over an existing graph.json")
+    a.add_argument("graph")
+    a.add_argument("--edges", default="mentions,related,contradicts",
+                   help="edge types to include in the analysis graph")
+    a.add_argument("--top", type=int, default=5)
+    a.add_argument("--path", nargs=2, metavar=("A", "B"), help="shortest path between two nodes")
+    a.set_defaults(func=cmd_analyze)
+
+    q = sub.add_parser("query", help="ask common questions about a graph.json (no SQL needed)")
+    q.add_argument("graph")
+    q.add_argument("question",
+                   choices=["list", "node", "neighbors", "backlinks", "kind", "edgetype",
+                            "contradicts", "path", "bfs", "dfs"])
+    q.add_argument("terms", nargs="*", help="node name(s), or a kind/edge-type argument")
+    # filters — any combination:
+    q.add_argument("--edges", default=None, help="ONLY traverse/show these edge types (comma list)")
+    q.add_argument("--ignore-edges", default=None, help="traverse/show all edge types EXCEPT these")
+    q.add_argument("--kind", default=None, help="ONLY visit nodes of these kinds (comma list)")
+    q.add_argument("--ignore-kind", default=None, help="visit all kinds EXCEPT these")
+    q.add_argument("--node-type", default=None, help="ONLY visit these structural types (concept,source,index,log)")
+    q.add_argument("--ignore-node-type", default=None, help="visit all node types EXCEPT these")
+    q.add_argument("--undirected", action="store_true", help="treat edges as undirected in bfs/dfs")
+    q.set_defaults(func=cmd_query)
+
+    u = sub.add_parser("update", help="edit the source wiki markdown, then re-run build")
+    u.add_argument("wiki_dir")
+    u.add_argument("action", choices=["add-node", "add-edge", "set-kind"])
+    u.add_argument("--title"); u.add_argument("--kind")
+    u.add_argument("--summary"); u.add_argument("--explanation")
+    u.add_argument("--from", dest="frm"); u.add_argument("--to"); u.add_argument("--type")
+    u.add_argument("--node")
+    u.set_defaults(func=cmd_update)
+
+    args = ap.parse_args()
+    if not getattr(args, "cmd", None):
+        ap.print_help(); sys.exit(1)
+    args.func(args)
+
+
+if __name__ == "__main__":
+    main()

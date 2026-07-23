@@ -181,7 +181,7 @@ SQLite and GraphML are *views* of the same graph; `graph.json` is the source of 
   "directed": true,
   "multigraph": true,
   "meta": {
-    "generator": "wiki_to_kspace/0.1",
+    "generator": "wiki_to_graph/0.1",
     "generated": "<iso8601>",
     "source_dir": "<path>",
     "counts": {"concept": 26, "source": 6, "edges": {"mentions": 0, "related": 0, "contradicts": 0, "cites": 0}},

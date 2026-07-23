@@ -34,22 +34,22 @@ Running `build` (below) regenerates every file in `build/`. They are all
 
 ## Example workflows
 
-`SCR=skills/wiki-to-kspace/scripts`
+`SCR=skills/wiki-to-graph/scripts`
 
 ### A · Full pipeline from the example wiki (reproduces `build/`)
 
 ```bash
-SCR=skills/wiki-to-kspace/scripts
+SCR=skills/wiki-to-graph/scripts
 
 # 1) BUILD every output from the example wiki
-python3 $SCR/wiki_to_kspace.py build examples/llm-wiki/wiki \
+python3 $SCR/wiki_to_graph.py build examples/llm-wiki/wiki \
         -o build/graph.json --emit sqlite,graphml --kspace
 
 # 2) VALIDATE (exit 1 on dangling links / orphans / self-loops)
-python3 $SCR/wiki_to_kspace.py validate build/graph.json
+python3 $SCR/wiki_to_graph.py validate build/graph.json
 
 # 3) ANALYZE (PageRank, in-degree, contested nodes, components, communities)
-python3 $SCR/wiki_to_kspace.py analyze build/graph.json --top 5
+python3 $SCR/wiki_to_graph.py analyze build/graph.json --top 5
 
 # 4) VIEW (offline interactive HTML)
 python3 $SCR/build_graph_viewer.py build/graph.json -o build/graph-viewer.html
@@ -59,35 +59,35 @@ python3 $SCR/build_graph_viewer.py build/graph.json -o build/graph-viewer.html
 ### B · Ask the graph questions (no SQL / no graph code)
 
 ```bash
-python3 $SCR/wiki_to_kspace.py query build/graph.json node "RLHF"            # details + edges
-python3 $SCR/wiki_to_kspace.py query build/graph.json neighbors "GPT-3"      # outgoing
-python3 $SCR/wiki_to_kspace.py query build/graph.json backlinks "Transformer" # incoming
-python3 $SCR/wiki_to_kspace.py query build/graph.json contradicts            # all tension pairs
+python3 $SCR/wiki_to_graph.py query build/graph.json node "RLHF"            # details + edges
+python3 $SCR/wiki_to_graph.py query build/graph.json neighbors "GPT-3"      # outgoing
+python3 $SCR/wiki_to_graph.py query build/graph.json backlinks "Transformer" # incoming
+python3 $SCR/wiki_to_graph.py query build/graph.json contradicts            # all tension pairs
 ```
 
 ### C · Filtered traversals
 
 ```bash
 # Walk only 'related' edges out of Transformer
-python3 $SCR/wiki_to_kspace.py query build/graph.json bfs "Transformer" --edges related
+python3 $SCR/wiki_to_graph.py query build/graph.json bfs "Transformer" --edges related
 
 # Walk the contradiction graph around GPT-3, treating edges as undirected
-python3 $SCR/wiki_to_kspace.py query build/graph.json dfs "GPT-3" --edges contradicts --undirected
+python3 $SCR/wiki_to_graph.py query build/graph.json dfs "GPT-3" --edges contradicts --undirected
 
 # Shortest path between two concepts
-python3 $SCR/wiki_to_kspace.py query build/graph.json path "Positional Encoding" "RLHF"
+python3 $SCR/wiki_to_graph.py query build/graph.json path "Positional Encoding" "RLHF"
 ```
 
 ### D · Edit the source, then rebuild (the graph is derived — never hand-edit `graph.json`)
 
 ```bash
-python3 $SCR/wiki_to_kspace.py update examples/llm-wiki/wiki \
+python3 $SCR/wiki_to_graph.py update examples/llm-wiki/wiki \
         add-node --title "Mixture of Experts" --kind schema --summary "..."
-python3 $SCR/wiki_to_kspace.py update examples/llm-wiki/wiki \
+python3 $SCR/wiki_to_graph.py update examples/llm-wiki/wiki \
         add-edge --from "Mixture of Experts" --to "Transformer" --type related
 
 # re-run build to regenerate every output
-python3 $SCR/wiki_to_kspace.py build examples/llm-wiki/wiki -o build/graph.json --emit sqlite,graphml --kspace
+python3 $SCR/wiki_to_graph.py build examples/llm-wiki/wiki -o build/graph.json --emit sqlite,graphml --kspace
 ```
 
 ### E · Load `graph.json` into NetworkX for heavier analysis
@@ -110,4 +110,4 @@ sqlite3 build/graph.db "SELECT id, kind FROM nodes WHERE type='concept' ORDER BY
 ---
 
 For the full ontology and format spec, see
-[`skills/wiki-to-kspace/references/spec.md`](../skills/wiki-to-kspace/references/spec.md).
+[`skills/wiki-to-graph/references/spec.md`](../skills/wiki-to-graph/references/spec.md).

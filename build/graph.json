@@ -2,9 +2,9 @@
   "directed": true,
   "multigraph": true,
   "meta": {
-    "generator": "wiki_to_kspace/0.2",
-    "generated": "2026-07-23T02:57:06",
-    "source_dir": "/Users/darrahts/vanderbilt/wiki-to-kspace/examples/llm-wiki/wiki",
+    "generator": "wiki_to_graph/0.2",
+    "generated": "2026-07-23T06:34:08",
+    "source_dir": "examples/llm-wiki/wiki",
     "counts": {
       "concept": 26,
       "index": 1,

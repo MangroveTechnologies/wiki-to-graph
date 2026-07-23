@@ -7,7 +7,7 @@
   },
   "plugins": [
     {
-      "name": "wiki-to-kspace",
+      "name": "wiki-to-graph",
       "source": "./",
       "description": "Turn an LLM wiki into a typed, queryable knowledge graph: build, validate, analyze, query, update, and view."
     }

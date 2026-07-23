@@ -36,11 +36,11 @@ wiki-to-graph/                      ← plugin root (also a one-plugin marketpla
 │   ├── plugin.json                 ← plugin manifest
 │   └── marketplace.json            ← lets the repo be added as a marketplace
 ├── skills/
-│   └── wiki-to-kspace/
+│   └── wiki-to-graph/
 │       ├── SKILL.md                ← the skill (build/validate/analyze/query/update/view)
 │       ├── references/spec.md      ← full ontology + format spec
 │       └── scripts/
-│           ├── wiki_to_kspace.py       ← the toolkit
+│           ├── wiki_to_graph.py       ← the toolkit
 │           └── build_graph_viewer.py   ← HTML graph viewer generator
 ├── examples/llm-wiki/              ← the runnable example wiki (source of build/)
 │   ├── wiki/                       ← 28 markdown pages (the LLM wiki)
@@ -59,11 +59,11 @@ from a fresh clone. New here? Start with
 
 ### Install
 
-- **As a plugin (Cowork):** open the delivered `wiki-to-kspace.plugin` file and click install; or
+- **As a plugin (Cowork):** open the delivered `wiki-to-graph.plugin` file and click install; or
   Settings → Capabilities → add plugin.
 - **As a marketplace / skill repo:** push this folder to a git repo and add it as a plugin
   marketplace (`.claude-plugin/marketplace.json` lists the plugin). Claude Code:
-  `/plugin marketplace add <repo-url>` then `/plugin install wiki-to-kspace`.
+  `/plugin marketplace add <repo-url>` then `/plugin install wiki-to-graph`.
 - **No install needed:** the scripts are plain Python — just run them (below).
 
 Requirements: Python 3 (standard library only). `networkx`/`scipy` are optional, for your own
@@ -73,12 +73,12 @@ heavier analysis.
 
 ## Quick start
 
-Paths below are from the plugin root. (`SCR=skills/wiki-to-kspace/scripts`)
+Paths below are from the plugin root. (`SCR=skills/wiki-to-graph/scripts`)
 
 ### 1 · Build the graph
 
 ```bash
-python3 skills/wiki-to-kspace/scripts/wiki_to_kspace.py build examples/llm-wiki/wiki \
+python3 skills/wiki-to-graph/scripts/wiki_to_graph.py build examples/llm-wiki/wiki \
         -o build/graph.json --emit sqlite,graphml
 ```
 
@@ -88,7 +88,7 @@ Add `--kspace` for a `domain.json` KST projection.
 ### 2 · Validate
 
 ```bash
-python3 skills/wiki-to-kspace/scripts/wiki_to_kspace.py validate build/graph.json
+python3 skills/wiki-to-graph/scripts/wiki_to_graph.py validate build/graph.json
 ```
 
 Broken links / orphans / self-loops fail (exit 1). Cross-reference cycles are informational.
@@ -96,7 +96,7 @@ Broken links / orphans / self-loops fail (exit 1). Cross-reference cycles are in
 ### 3 · Analyze
 
 ```bash
-python3 skills/wiki-to-kspace/scripts/wiki_to_kspace.py analyze build/graph.json --top 5
+python3 skills/wiki-to-graph/scripts/wiki_to_graph.py analyze build/graph.json --top 5
 ```
 
 PageRank, in-degree, most-contested nodes, components, communities. Shortest path:
@@ -105,7 +105,7 @@ PageRank, in-degree, most-contested nodes, components, communities. Shortest pat
 ### 4 · Query (no SQL needed)
 
 ```bash
-SCR=skills/wiki-to-kspace/scripts/wiki_to_kspace.py
+SCR=skills/wiki-to-graph/scripts/wiki_to_graph.py
 python3 $SCR query build/graph.json node "RLHF"            # details + edges
 python3 $SCR query build/graph.json neighbors "GPT-3"      # outgoing
 python3 $SCR query build/graph.json backlinks "Transformer"# incoming
@@ -139,7 +139,7 @@ python3 $SCR update examples/llm-wiki/wiki set-kind --node "GPT-3" --kind schema
 ### 6 · View in a browser
 
 ```bash
-python3 skills/wiki-to-kspace/scripts/build_graph_viewer.py build/graph.json -o build/graph-viewer.html
+python3 skills/wiki-to-graph/scripts/build_graph_viewer.py build/graph.json -o build/graph-viewer.html
 ```
 
 Double-click `build/graph-viewer.html` (offline, no dependencies).
@@ -155,7 +155,7 @@ Double-click `build/graph-viewer.html` (offline, no dependencies).
 - Each node carries its own `edges` list, degrees, `word_count`, `n_sources`, `aliases`. Link text
   is stored as plain names — the relationship lives in the edge, not in `[[markup]]`.
 
-Full details: `skills/wiki-to-kspace/references/spec.md`.
+Full details: `skills/wiki-to-graph/references/spec.md`.
 
 ## Use on your own wiki
 

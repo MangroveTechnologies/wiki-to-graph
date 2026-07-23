@@ -1,5 +1,5 @@
 ---
-name: wiki-to-kspace
+name: wiki-to-graph
 description: >-
   Translate an LLM wiki (a folder of markdown entity pages linked with
   [[wiki-links]], in the Karpathy "LLM wiki" pattern) into a durable, typed,
@@ -44,31 +44,31 @@ non-graph-native — wrong tool for a small heterogeneous graph). Optional views
 
 ## Usage — six subcommands
 
-Scripts live beside this file, in `scripts/` (i.e. `${CLAUDE_PLUGIN_ROOT}/skills/wiki-to-kspace/scripts/`).
+Scripts live beside this file, in `scripts/` (i.e. `${CLAUDE_PLUGIN_ROOT}/skills/wiki-to-graph/scripts/`).
 All are stdlib-only — no numpy/scipy/networkx required.
 
 ```bash
 # 1) BUILD: parse a wiki folder into graph.json (+ optional views / KST projection)
-python3 scripts/wiki_to_kspace.py build <wiki_dir> -o graph.json --emit sqlite,graphml --kspace
+python3 scripts/wiki_to_graph.py build <wiki_dir> -o graph.json --emit sqlite,graphml --kspace
 
 # 2) VALIDATE: structural check (exit 1 on defects). Dangling links, orphan concepts,
 #    and self-loops fail; DAG cycles over cross-references are informational.
-python3 scripts/wiki_to_kspace.py validate graph.json
+python3 scripts/wiki_to_graph.py validate graph.json
 
 # 3) ANALYZE: PageRank, in-degree, contested nodes, components, communities, shortest path.
-python3 scripts/wiki_to_kspace.py analyze graph.json --top 5 --path "GPT-3" "Layer Normalization"
+python3 scripts/wiki_to_graph.py analyze graph.json --top 5 --path "GPT-3" "Layer Normalization"
 
 # 4) QUERY: canned questions — no raw SQL/graph code. Verbs:
 #    list | node | neighbors | backlinks | kind | edgetype | contradicts | path | bfs | dfs
-python3 scripts/wiki_to_kspace.py query graph.json node "RLHF"
-python3 scripts/wiki_to_kspace.py query graph.json bfs "Transformer" --edges related
-python3 scripts/wiki_to_kspace.py query graph.json dfs "GPT-3" --edges contradicts --undirected
-python3 scripts/wiki_to_kspace.py query graph.json path "Positional Encoding" "RLHF"
+python3 scripts/wiki_to_graph.py query graph.json node "RLHF"
+python3 scripts/wiki_to_graph.py query graph.json bfs "Transformer" --edges related
+python3 scripts/wiki_to_graph.py query graph.json dfs "GPT-3" --edges contradicts --undirected
+python3 scripts/wiki_to_graph.py query graph.json path "Positional Encoding" "RLHF"
 
 # 5) UPDATE: edit the SOURCE wiki markdown, then re-run build. Actions:
-python3 scripts/wiki_to_kspace.py update <wiki_dir> add-node --title "Mixture of Experts" --kind schema --summary "..."
-python3 scripts/wiki_to_kspace.py update <wiki_dir> add-edge --from "Mixture of Experts" --to "Transformer" --type related
-python3 scripts/wiki_to_kspace.py update <wiki_dir> set-kind --node "GPT-3" --kind schema
+python3 scripts/wiki_to_graph.py update <wiki_dir> add-node --title "Mixture of Experts" --kind schema --summary "..."
+python3 scripts/wiki_to_graph.py update <wiki_dir> add-edge --from "Mixture of Experts" --to "Transformer" --type related
+python3 scripts/wiki_to_graph.py update <wiki_dir> set-kind --node "GPT-3" --kind schema
 
 # 6) VIEW: render an interactive, offline HTML graph
 python3 scripts/build_graph_viewer.py graph.json -o graph-viewer.html

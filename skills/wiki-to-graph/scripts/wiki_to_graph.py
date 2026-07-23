@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-wiki_to_kspace — translate an LLM wiki (folder of markdown entity pages) into a
+wiki_to_graph — translate an LLM wiki (folder of markdown entity pages) into a
 typed property graph traversable by graph algorithms.
 
 Ontology (see references/spec.md):
@@ -12,7 +12,7 @@ Canonical output: graph.json (node-link, NetworkX-compatible).
 Optional: --emit sqlite,graphml  and  --kspace (domain.json for the KST toolkit).
 
 Stdlib only. Usage:
-  python3 wiki_to_kspace.py <wiki_dir> [-o graph.json] [--emit sqlite,graphml]
+  python3 wiki_to_graph.py <wiki_dir> [-o graph.json] [--emit sqlite,graphml]
                             [--stubs] [--dag-edges mentions] [--kspace] [--exclude index,log]
 """
 import argparse, glob, json, os, re, sqlite3, sys, datetime, xml.sax.saxutils as sx
@@ -369,9 +369,9 @@ def cmd_build(args):
     # multigraph=True: two nodes may be joined by several *typed* edges
     # (e.g. both `related` and `mentions`); a simple DiGraph would collapse them.
     graph={"directed":True,"multigraph":True,
-           "meta":{"generator":"wiki_to_kspace/0.2",
+           "meta":{"generator":"wiki_to_graph/0.2",
                    "generated":datetime.datetime.now().isoformat(timespec="seconds"),
-                   "source_dir":os.path.abspath(args.wiki_dir),
+                   "source_dir":os.path.normpath(args.wiki_dir),
                    "counts":{**ncount,"edges":ecount},
                    "dag_check":dag,"warnings":warnings},
            "nodes":list(nodes.values()),

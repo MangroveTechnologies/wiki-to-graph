@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_graph_viewer.py — render a graph.json (from wiki_to_kspace build) into a
+build_graph_viewer.py — render a graph.json (from wiki_to_graph build) into a
 single self-contained, offline interactive HTML graph viewer.
 
 Usage:

@@ -83,7 +83,7 @@ python3 skills/wiki-to-graph/scripts/wiki_to_graph.py build examples/llm-wiki/wi
 ```
 
 Writes **`build/graph.json`** (canonical), plus `graph.db` (SQLite) and `graph.graphml` (Gephi/yEd).
-Add `--kspace` for a `domain.json` KST projection.
+Add `--kst` for a `domain.json` KST projection.
 
 ### 2 · Validate
 

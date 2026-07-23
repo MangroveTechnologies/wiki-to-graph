@@ -9,11 +9,11 @@ Ontology (see references/spec.md):
          cites (concept -> source)
 
 Canonical output: graph.json (node-link, NetworkX-compatible).
-Optional: --emit sqlite,graphml  and  --kspace (domain.json for the KST toolkit).
+Optional: --emit sqlite,graphml  and  --kst (domain.json for the KST toolkit).
 
 Stdlib only. Usage:
   python3 wiki_to_graph.py <wiki_dir> [-o graph.json] [--emit sqlite,graphml]
-                            [--stubs] [--dag-edges mentions] [--kspace] [--exclude index,log]
+                            [--stubs] [--dag-edges mentions] [--kst] [--exclude index,log]
 """
 import argparse, glob, json, os, re, sqlite3, sys, datetime, xml.sax.saxutils as sx
 
@@ -340,7 +340,7 @@ def write_sqlite(nodes, edges, path):
     shutil.copyfile(tmp, path)
 
 
-def write_kspace(nodes, edges, path, dag_edges):
+def write_kst(nodes, edges, path, dag_edges):
     items=[{"id":n["id"],"name":n["title"],"description":n.get("summary","")}
            for n in nodes.values() if n["type"]=="concept"]
     prereqs=[[e["target"],e["source"]] for e in edges if e["type"] in dag_edges]
@@ -382,7 +382,7 @@ def cmd_build(args):
     emits={x.strip().lower() for x in args.emit.split(",") if x.strip()}
     if "sqlite" in emits: write_sqlite(nodes,edges,base+".db")
     if "graphml" in emits: write_graphml(nodes,edges,base+".graphml")
-    if args.kspace: write_kspace(nodes,edges,base.replace("graph","domain")+".json",
+    if args.kst: write_kst(nodes,edges,base.replace("graph","domain")+".json",
                                  {x.strip() for x in args.dag_edges.split(",")})
 
     print(f"nodes: {ncount}  edges: {ecount}")
@@ -806,7 +806,7 @@ def main():
                    help="filename stems to skip (index/log are INCLUDED as hub nodes by default)")
     b.add_argument("--stubs", action="store_true", help="create nodes for dangling links")
     b.add_argument("--dag-edges", default="mentions", help="edge types to check for acyclicity")
-    b.add_argument("--kspace", action="store_true", help="also emit domain.json (KST candidate)")
+    b.add_argument("--kst", action="store_true", help="also emit domain.json (KST candidate)")
     b.add_argument("--map", default=None, help="JSON file overriding section->edge map")
     b.set_defaults(func=cmd_build)
 

@@ -71,6 +71,21 @@ from a fresh clone. New here? Start with
 Requirements: Python 3 (standard library only). `networkx`/`scipy` are optional, for your own
 heavier analysis. Distribution details and release steps: [`docs/publishing.md`](docs/publishing.md).
 
+### Choose the source and release
+
+This repository's Python and plugin manifests declare **0.2.0**. The published
+[PyPI 0.2.0 release](https://pypi.org/project/wiki-to-graph/0.2.0/) comes from the
+original Mangrove project. Later changes in this repository are not part of that
+older archive.
+
+PyPI's **1.0.0** release comes from the related
+[Vanderbilt academic fork](https://github.com/vanderbilt-ms-ai/wiki-to-graph).
+An unversioned `pip install wiki-to-graph` selects the latest PyPI release, rather
+than this repository's current tree. Use `pip install wiki-to-graph==0.2.0` for the
+older published Mangrove package, or check out an exact reviewed Git commit for
+newer source changes. Both projects use CC BY-NC-SA 4.0; neither public license
+permits commercial use.
+
 ---
 
 ## Quick start
